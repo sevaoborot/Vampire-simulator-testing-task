@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: d121cb94c350d9d46a32d00b0364e469
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 8404be70184654265930450def6a9037, type: 3}
+  generateWrapperCode: 1
+  wrapperCodePath: Assets/Scripts/Input System Generated/VampSym_Actions.cs
+  wrapperClassName: 
+  wrapperCodeNamespace: 
