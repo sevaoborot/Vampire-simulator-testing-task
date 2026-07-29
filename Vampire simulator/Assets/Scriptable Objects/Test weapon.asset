@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abe4e559e2a0366479c3b6bc1932e714, type: 3}
   m_Name: Test weapon
   m_EditorClassIdentifier: 
-  projectile: {fileID: 0}
-  weaponLevel: 0
-  projectileSpeed: 0
-  projectileDamage: 0
-  projectileNumber: 0
-  weaponCooldown: 0
+  projectile: {fileID: 8646682986074405759, guid: 995b57fa441fe3242874582d6d282e8d, type: 3}
+  weaponLevel: 1
+  projectileSpeed: 2
+  projectileDamage: 10
+  projectileNumber: 1
+  weaponCooldown: 3
   projectileBehaviour: 0
