@@ -7,9 +7,9 @@ public class PlayerHealth: MonoBehaviour
     [SerializeField] private float _playerMaxHealth;
 
     //not sure, but maybe I should make different events on health restored and on damage dealed 
-    public event Action<float, float> OnHealthChange;
+    public event Action<float, float> OnPlayerHealthChange;
 
-    public float PlayerCurrentHealth
+    private float PlayerCurrentHealth //like a protection from fool???
     {
         get => _playerCurrentHealth;
         set
@@ -18,7 +18,7 @@ public class PlayerHealth: MonoBehaviour
             //if (clamped == _playerCurrentHealth) return;
             if (Mathf.Approximately(clamped, _playerCurrentHealth)) return; //I remembered there was such a way to compare float values in Unity, but I forgot exact scripting, so I asked Claude about it
             _playerCurrentHealth = clamped;
-            OnHealthChange?.Invoke(_playerCurrentHealth, _playerMaxHealth);
+            OnPlayerHealthChange?.Invoke(_playerCurrentHealth, _playerMaxHealth);
             if (_playerCurrentHealth <= 0f) Debug.LogWarning("The player is dead!");
         }
     }
