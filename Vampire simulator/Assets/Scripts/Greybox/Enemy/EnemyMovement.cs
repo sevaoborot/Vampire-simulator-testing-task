@@ -2,9 +2,18 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
-    [SerializeField] private Transform _player;
+    private Transform _player;
     private Vector2 _enemyVelocity;
     [SerializeField] private float _enemyMaxSpeed;
+
+    public Transform Player
+    {
+        private get => _player;
+        set
+        {
+            if (_player == null) _player = value;
+        }
+    }
 
     private void Update()
     {
