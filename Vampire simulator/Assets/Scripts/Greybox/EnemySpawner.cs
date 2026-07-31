@@ -37,6 +37,7 @@ public class EnemySpawner : MonoBehaviour
         if (!_canSpawn) return;
         GameObject newEnemy = _enemyPool.Get();
         newEnemy.transform.position = _spawnArea.GetRandomPositionToSpawn();
+        newEnemy.transform.SetParent(transform);
         newEnemy.GetComponent<EnemyMovement>().Player = _player;
         StartSpawnCooldown();
 
