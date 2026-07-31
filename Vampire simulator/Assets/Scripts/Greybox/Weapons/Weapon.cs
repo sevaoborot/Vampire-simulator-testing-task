@@ -31,6 +31,9 @@ public class Weapon
 
         _projectilesPool = new CustomObjectPool(_projectile, 5);
         _viewportBounds = viewportBounds;
+
+        Debug.Log($"{_viewportBounds.viewportRect.xMin}, {_viewportBounds.viewportRect.yMin}");
+
         StartCooldown();
     }
 
@@ -39,9 +42,9 @@ public class Weapon
         if (!_canAttack) return;
         GameObject newProjectile = _projectilesPool.Get();
         newProjectile.transform.position = _playerTransform.position;
-        newProjectile.GetComponent<WeaponProjectile>().Initialize(
+        newProjectile.GetComponent<WeaponProjectile>().Initialize( 
             _viewportBounds, 
-            ChooseProjectileMovement(newProjectile, _projectileBehaviour),
+            ChooseProjectileMovement(newProjectile, _projectileBehaviour), 
             () => _projectilesPool.Release(newProjectile),
             _projectileDamage);
         StartCooldown();
@@ -64,10 +67,10 @@ public class Weapon
         switch (projectileBehaviour)
         {
             case ProjectileBehavioursEnum.ProjectileFollowsEnemyMovement:
-                return new ProjectileFollowsEnemyMovement(projectile.transform, _projectileSpeed);
+                return new ProjectileFollowsEnemyMovement(projectile.transform, _projectileSpeed); 
             default:
-                Debug.LogError("No movement logic for projectile! Returning null!");
-                return null;
+                Debug.LogError("No movement logic for projectile! Returning basic stuff");
+                return new ProjectileFollowsEnemyMovement(projectile.transform, _projectileSpeed);
         }
     }
 }

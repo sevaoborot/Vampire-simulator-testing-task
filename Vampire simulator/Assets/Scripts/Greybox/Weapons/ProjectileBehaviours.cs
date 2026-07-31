@@ -37,10 +37,10 @@ public class ProjectileFollowsEnemyMovement : IProjectileMovement
 
     private Vector2 FindNearestEnemy()
     {
-        EnemyMovement nearestEnemy = null;
+        Enemy nearestEnemy = null;
         float nearestSqrDistance = float.MaxValue;
 
-        foreach (EnemyMovement enemy in EnemyRegistry.ActiveEnemies)
+        foreach (Enemy enemy in EnemyRegistry.ActiveEnemies)
         {
             float sqrDistance = (enemy.transform.position - _owner.position).sqrMagnitude;
             if (sqrDistance < nearestSqrDistance)

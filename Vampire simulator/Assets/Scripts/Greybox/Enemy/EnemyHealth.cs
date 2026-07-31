@@ -1,19 +1,20 @@
 using System;
 using UnityEngine;
 
-public class EnemyHealth : MonoBehaviour
+public class EnemyHealth //: MonoBehaviour
 {
-    [SerializeField] private float _enemyCurrentHealth;
-    [SerializeField] private float _enemyMaxHealth;
-    private Action _releaseEnemy;
+    private float _enemyCurrentHealth;
+    private float _enemyMaxHealth;
 
     //same not sure as in 'PlayerHealth.cs'
-    public event Action<float, float> OnEnemyHealthChanged;
+    public event Action<float, float> OnHealthChanged;
+    public event Action OnDeath;
 
-    public void Initialize(Action releaseEnemy)
+    public EnemyHealth(float enemyMaxHealth)
     {
-        _releaseEnemy = releaseEnemy;
+        _enemyMaxHealth = enemyMaxHealth;
         _enemyCurrentHealth = _enemyMaxHealth;
+        Debug.Log($"Current enemy health is {_enemyCurrentHealth}");
     }
 
     public float EnemyCurrentHealth
@@ -24,17 +25,12 @@ public class EnemyHealth : MonoBehaviour
             float clamped = Mathf.Clamp(value, 0f, _enemyMaxHealth);
             if (Mathf.Approximately(clamped, _enemyCurrentHealth)) return;
             _enemyCurrentHealth = clamped;
-            OnEnemyHealthChanged?.Invoke(_enemyCurrentHealth, _enemyMaxHealth);
-            if (_enemyCurrentHealth <= 0) OnDeath();
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.TryGetComponent<WeaponProjectile>(out WeaponProjectile projectile))
-        {
-            Debug.Log("Enemy recieved damage");
-            OnDamageDealed(projectile.projectileDamage);
+            if (_enemyCurrentHealth <= 0)
+            {
+                OnDeath?.Invoke();
+                return;
+            }
+            OnHealthChanged?.Invoke(_enemyCurrentHealth, _enemyMaxHealth);
         }
     }
 
@@ -42,17 +38,4 @@ public class EnemyHealth : MonoBehaviour
     {
         EnemyCurrentHealth -= amount;
     }
-
-    private void OnDeath()
-    {
-        Debug.Log("Enemy is dead!");
-        _releaseEnemy();
-    }
-
-    //I dont thibk enemies should have an ability to restore their health
-
-    //public void OnHealthRestored(float amount)
-    //{
-    //    EnemyCurrentHealth += amount;
-    //}
 }

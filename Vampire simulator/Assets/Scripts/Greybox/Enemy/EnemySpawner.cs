@@ -1,11 +1,9 @@
 using System.Collections.Generic;
-using NUnit.Framework;
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
     [Header("Spawn area settings")]
-    //[SerializeField] private Camera _camera;
     [SerializeField] private float _spawnOffset;
     private EnemySpawnArea _spawnArea;
 
@@ -42,10 +40,14 @@ public class EnemySpawner : MonoBehaviour
         newEnemy.transform.SetParent(transform);
 
         //EnemyMovement and EnemyHealth should be replaced later with some Enemy Data
-        EnemyMovement newEnemyMovement = newEnemy.GetComponent<EnemyMovement>();
-        newEnemyMovement.Player = _player; 
-        EnemyRegistry.Register(newEnemyMovement);
-        newEnemy.GetComponent<EnemyHealth>().Initialize(() => _enemyPool.Release(newEnemy));
+
+        Enemy enemy = newEnemy.GetComponent<Enemy>();
+        EnemyRegistry.Register(enemy);
+        enemy.Initialize(_player, () =>
+        {
+            EnemyRegistry.Unregister(enemy);
+            _enemyPool.Release(newEnemy);
+        });
         StartSpawnCooldown();
 
         //stop cooldown        
@@ -64,14 +66,14 @@ public class EnemySpawner : MonoBehaviour
 
 public static class EnemyRegistry
 {
-    private static readonly List<EnemyMovement> _activeEnemies = new List<EnemyMovement>(128);
+    private static readonly List<Enemy> _activeEnemies = new List<Enemy>(128);
 
-    public static IReadOnlyList<EnemyMovement> ActiveEnemies => _activeEnemies;
+    public static IReadOnlyList<Enemy> ActiveEnemies => _activeEnemies;
 
-    public static void Register(EnemyMovement enemy)
+    public static void Register(Enemy enemy)
     {
         if (!_activeEnemies.Contains(enemy)) _activeEnemies.Add(enemy);
     }
 
-    public static void Unregister(EnemyMovement enemy) => _activeEnemies.Remove(enemy);
+    public static void Unregister(Enemy enemy) => _activeEnemies.Remove(enemy);
 }

@@ -1,0 +1,42 @@
+using System;
+using UnityEngine;
+
+public class Enemy : MonoBehaviour
+{
+    [SerializeField] private EnemyData _enemyData;
+    private EnemyHealth _enemyHealth;
+    private EnemyMovement _enemyMovement;
+
+    private Transform _player;
+    private Action _poolRelease;
+
+    public void Initialize(Transform player, Action poolRelease)
+    {
+        _player = player;
+        _poolRelease = poolRelease;
+
+        _enemyHealth = new EnemyHealth(_enemyData.MaxHealth);
+        _enemyMovement = new EnemyMovement();
+
+        _enemyHealth.OnDeath += Death;
+    }
+
+    private void Update()
+    {
+        if (_player != null) transform.position = _enemyMovement.Move(transform, _player, _enemyData.MaxSpeed);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision) //should be changed to collision?
+    {
+        if (collision.TryGetComponent<WeaponProjectile>(out WeaponProjectile weaponProjectile))
+            _enemyHealth.OnDamageDealed(weaponProjectile.Damage);
+        if (collision.TryGetComponent<PlayerHealth>(out PlayerHealth playerHealth))
+            playerHealth.OnDamageDealed(_enemyData.Damage);
+    }
+
+    private void Death()
+    {
+        _enemyHealth.OnDeath -= Death;
+        _poolRelease();
+    }
+}

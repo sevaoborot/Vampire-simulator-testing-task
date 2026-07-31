@@ -4,24 +4,26 @@ using UnityEngine;
 public class WeaponProjectile : MonoBehaviour
 {
     public Vector2 projectileVelocity {  get; private set; }
-    public float projectileDamage { get; private set; }
+    public float Damage { get; private set; }
 
-    private IProjectileMovement _projectileMovement;
+    private IProjectileMovement _movement;
     private ViewportBounds _viewportBounds;
-    private Action _projectileRelease;
+    private Action _poolRelease;
+    //private bool _isInit = false;
 
     public void Initialize(ViewportBounds viewportBounds, IProjectileMovement projectileMovement, Action projectileRelease, float projectileDamage)
     {
-        _projectileMovement = projectileMovement;
+        _movement = projectileMovement;
         _viewportBounds = viewportBounds;
-        _projectileRelease = projectileRelease;
+        _poolRelease = projectileRelease;
+        Damage = projectileDamage;
 
-        this.projectileDamage = projectileDamage;
+        //_isInit = true;
     }
 
     private void Update()
     {
-        if (_projectileMovement != null) _projectileMovement.Move(transform);
+        if (_movement != null) _movement.Move(transform);
     }
 
     private void LateUpdate()
@@ -29,7 +31,11 @@ public class WeaponProjectile : MonoBehaviour
         if (!CheckProjectileVisibility()) ReleaseProjectile();
     }
 
-    public void ReleaseProjectile() => _projectileRelease();
+    public void ReleaseProjectile()
+    {
+        //_isInit = false;
+        _poolRelease();
+    }
 
     private bool CheckProjectileVisibility()
     {

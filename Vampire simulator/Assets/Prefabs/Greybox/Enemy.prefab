@@ -9,9 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5185431316810311288}
-  - component: {fileID: 4683560947591442093}
-  - component: {fileID: 8089987076773124596}
-  - component: {fileID: 8031063316428180794}
+  - component: {fileID: 8393557672078568668}
   - component: {fileID: 440092796722671993}
   m_Layer: 0
   m_Name: Enemy
@@ -36,7 +34,7 @@ Transform:
   - {fileID: 2095123488464642644}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4683560947591442093
+--- !u!114 &8393557672078568668
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -45,37 +43,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 534604987353889277}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cfd34d64b41af16439d6027cac327579, type: 3}
+  m_Script: {fileID: 11500000, guid: 67295847eeddac640980a8dcb473ad20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyMaxSpeed: 10
---- !u!114 &8089987076773124596
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 534604987353889277}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2733677cfa15d7449c23898605ebc76, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _enemyDamage: 10
---- !u!114 &8031063316428180794
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 534604987353889277}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea781b1eb3442eb44a3be58c62515443, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _enemyCurrentHealth: 0
-  _enemyMaxHealth: 10
+  _enemyData: {fileID: 11400000, guid: b16859b7a6d9c0d4b8f7fac3b2066ccc, type: 2}
 --- !u!70 &440092796722671993
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

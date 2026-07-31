@@ -3,7 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerHealth))]
 [RequireComponent(typeof(PlayerMovement))]
 [RequireComponent(typeof(PlayerWeapons))]
-public class PlayerData : MonoBehaviour
+public class Player : MonoBehaviour
 {
     private PlayerHealth _playerHealth;
     private PlayerMovement _playerMovement;

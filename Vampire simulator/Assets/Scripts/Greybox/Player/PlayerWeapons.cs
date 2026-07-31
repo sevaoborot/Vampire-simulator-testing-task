@@ -17,7 +17,7 @@ public class PlayerWeapons : MonoBehaviour
     private void Update()
     {
         foreach (var weapon in _currentWeapons)
-            weapon.Value.Attack();
+            weapon.Value.Attack(); 
     }
 
     public void AddWeapon(WeaponData weaponData)

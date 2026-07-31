@@ -1,22 +1,17 @@
 using UnityEngine;
 
-public class EnemyMovement : MonoBehaviour
+public class EnemyMovement 
 {
-    private Transform _player;
-    private Vector2 _enemyVelocity;
-    [SerializeField] private float _enemyMaxSpeed;
+    private Vector2 _velocity;
 
-    public Transform Player
+    public Vector2 Move(Transform enemy, Transform player, float maxSpeed)
     {
-        private get => _player;
-        set
-        {
-            if (_player == null) _player = value;
-        }
-    }
-
-    private void Update()
-    {
-        transform.position = Vector2.SmoothDamp((Vector2)transform.position, _player.position, ref _enemyVelocity, 0, _enemyMaxSpeed, Time.deltaTime);
+        return Vector2.SmoothDamp(
+            (Vector2)enemy.position,
+            player.position,
+            ref _velocity,
+            0,
+            maxSpeed,
+            Time.deltaTime);
     }
 }

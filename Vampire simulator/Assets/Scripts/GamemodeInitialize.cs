@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class GamemodeInitialize : MonoBehaviour
 {
-    [SerializeField] private PlayerData _playerData;
+    [SerializeField] private Player _playerData;
     [SerializeField] private EnemySpawner _enemySpawner;
     [SerializeField] private Camera _camera;
 
