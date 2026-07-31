@@ -5,17 +5,19 @@ public class Weapon
     private GameObject _projectile; //+
     private int _weaponLevel;
     private float _projectileSpeed; //+
-    private float _projectileDamage;
+    private float _projectileDamage; //+
     private int _projectileNumber;
     private float _weaponCooldown; //+
     private ProjectileBehavioursEnum _projectileBehaviour; //+
 
     private Transform _playerTransform;
+    private CustomObjectPool _projectilesPool;
     private float _weaponCooldownEndTime;
+    private ViewportBounds _viewportBounds;
 
     private bool _canAttack => Time.time >= _weaponCooldownEndTime;
 
-    public Weapon(WeaponData weaponData, Transform playerTransform)
+    public Weapon(WeaponData weaponData, Transform playerTransform, ViewportBounds viewportBounds)
     {
         _projectile = weaponData.projectile;
         _weaponLevel = weaponData.weaponLevel;
@@ -26,14 +28,22 @@ public class Weapon
         _projectileBehaviour = weaponData.projectileBehaviour;
 
         _playerTransform = playerTransform;
+
+        _projectilesPool = new CustomObjectPool(_projectile, 5);
+        _viewportBounds = viewportBounds;
+        StartCooldown();
     }
 
     public void Attack()
     {
         if (!_canAttack) return;
-        GameObject newProjectile = Object.Instantiate(_projectile, _playerTransform.position, Quaternion.identity);
-        newProjectile.GetComponent<WeaponProjectileMovement>().Initialize(ChooseProjectileMovement(_projectileBehaviour));
-        Debug.Log("Shooting...");
+        GameObject newProjectile = _projectilesPool.Get();
+        newProjectile.transform.position = _playerTransform.position;
+        newProjectile.GetComponent<WeaponProjectile>().Initialize(
+            _viewportBounds, 
+            ChooseProjectileMovement(newProjectile, _projectileBehaviour),
+            () => _projectilesPool.Release(newProjectile),
+            _projectileDamage);
         StartCooldown();
 
         //stop cooldowns
@@ -49,12 +59,12 @@ public class Weapon
         _weaponCooldownEndTime = Time.time;
     }
 
-    private IProjectileMovement ChooseProjectileMovement(ProjectileBehavioursEnum projectileBehaviour)
+    private IProjectileMovement ChooseProjectileMovement(GameObject projectile, ProjectileBehavioursEnum projectileBehaviour)
     {
         switch (projectileBehaviour)
         {
             case ProjectileBehavioursEnum.ProjectileFollowsEnemyMovement:
-                return new ProjectileFollowsEnemyMovement(_playerTransform, _projectileSpeed);
+                return new ProjectileFollowsEnemyMovement(projectile.transform, _projectileSpeed);
             default:
                 Debug.LogError("No movement logic for projectile! Returning null!");
                 return null;

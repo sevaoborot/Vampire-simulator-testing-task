@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerMovement : MonoBehaviour, VampSym_Actions.IPlayerActions
+public class PlayerMovement : MonoBehaviour, VampSym_Actions.IPlayerActions //should move the input somewhere else
 {
     //movement settings
     [SerializeField] private float _movementSpeed;
@@ -11,11 +11,11 @@ public class PlayerMovement : MonoBehaviour, VampSym_Actions.IPlayerActions
     private VampSym_Actions _actions;
     private VampSym_Actions.PlayerActions _player;
 
-    private void Awake()
+    public void Initialize()
     {
         _actions = new VampSym_Actions();
         _player = _actions.Player;
-        _player.AddCallbacks(this); //? чо ругается
+        _player.AddCallbacks(this);
     }
 
     private void Update()

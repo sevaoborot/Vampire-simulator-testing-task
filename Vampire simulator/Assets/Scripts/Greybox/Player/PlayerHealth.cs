@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class PlayerHealth: MonoBehaviour 
+public class PlayerHealth: MonoBehaviour //should it really be a monobeh?
 {
     [SerializeField] private float _playerCurrentHealth;
     [SerializeField] private float _playerMaxHealth;
@@ -9,10 +9,10 @@ public class PlayerHealth: MonoBehaviour
     //not sure, but maybe I should make different events on health restored and on damage dealed 
     public event Action<float, float> OnPlayerHealthChange;
 
-    private float PlayerCurrentHealth //like a protection from fool???
+    public float PlayerCurrentHealth //like a protection from fool???
     {
         get => _playerCurrentHealth;
-        set
+        private set
         {
             float clamped = Mathf.Clamp(value, 0f, _playerMaxHealth);
             //if (clamped == _playerCurrentHealth) return;

@@ -1,9 +1,11 @@
+using System.Collections.Generic;
+using NUnit.Framework;
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
     [Header("Spawn area settings")]
-    [SerializeField] private Camera _camera;
+    //[SerializeField] private Camera _camera;
     [SerializeField] private float _spawnOffset;
     private EnemySpawnArea _spawnArea;
 
@@ -16,9 +18,9 @@ public class EnemySpawner : MonoBehaviour
 
     private bool _canSpawn => Time.time >= _enemySpawningCooldownEndTime;
 
-    private void Awake()
+    public void Initialize(ViewportBounds viewportBounds)
     {
-        _spawnArea = new EnemySpawnArea(_camera, _spawnOffset);
+        _spawnArea = new EnemySpawnArea(viewportBounds, _spawnOffset);
         _enemyPool = new CustomObjectPool(_enemyPrefab, 10);
     }
 
@@ -38,7 +40,12 @@ public class EnemySpawner : MonoBehaviour
         GameObject newEnemy = _enemyPool.Get();
         newEnemy.transform.position = _spawnArea.GetRandomPositionToSpawn();
         newEnemy.transform.SetParent(transform);
-        newEnemy.GetComponent<EnemyMovement>().Player = _player;
+
+        //EnemyMovement and EnemyHealth should be replaced later with some Enemy Data
+        EnemyMovement newEnemyMovement = newEnemy.GetComponent<EnemyMovement>();
+        newEnemyMovement.Player = _player; 
+        EnemyRegistry.Register(newEnemyMovement);
+        newEnemy.GetComponent<EnemyHealth>().Initialize(() => _enemyPool.Release(newEnemy));
         StartSpawnCooldown();
 
         //stop cooldown        
@@ -53,4 +60,18 @@ public class EnemySpawner : MonoBehaviour
     {
         _enemySpawningCooldownEndTime = Time.time;
     }
+}
+
+public static class EnemyRegistry
+{
+    private static readonly List<EnemyMovement> _activeEnemies = new List<EnemyMovement>(128);
+
+    public static IReadOnlyList<EnemyMovement> ActiveEnemies => _activeEnemies;
+
+    public static void Register(EnemyMovement enemy)
+    {
+        if (!_activeEnemies.Contains(enemy)) _activeEnemies.Add(enemy);
+    }
+
+    public static void Unregister(EnemyMovement enemy) => _activeEnemies.Remove(enemy);
 }

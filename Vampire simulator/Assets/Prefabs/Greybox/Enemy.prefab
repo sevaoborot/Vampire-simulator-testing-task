@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5185431316810311288}
   - component: {fileID: 4683560947591442093}
   - component: {fileID: 8089987076773124596}
+  - component: {fileID: 8031063316428180794}
   - component: {fileID: 440092796722671993}
   m_Layer: 0
   m_Name: Enemy
@@ -47,7 +48,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfd34d64b41af16439d6027cac327579, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _player: {fileID: 0}
   _enemyMaxSpeed: 10
 --- !u!114 &8089987076773124596
 MonoBehaviour:
@@ -62,6 +62,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyDamage: 10
+--- !u!114 &8031063316428180794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 534604987353889277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea781b1eb3442eb44a3be58c62515443, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemyCurrentHealth: 0
+  _enemyMaxHealth: 10
 --- !u!70 &440092796722671993
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
