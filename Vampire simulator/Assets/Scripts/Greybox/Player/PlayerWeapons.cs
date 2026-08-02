@@ -1,20 +1,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerWeapons : MonoBehaviour
+public class PlayerWeapons //: MonoBehaviour
 {
-    [SerializeField] private WeaponData _test;
+    //private WeaponData _testWeapon;
+    private Transform _owner;
 
     private ViewportBounds _viewportBounds;
     private Dictionary<WeaponData, Weapon> _currentWeapons = new Dictionary<WeaponData, Weapon>();
 
-    public void Initialize(ViewportBounds viewportBounds)
+    //public void Initialize(ViewportBounds viewportBounds)
+    //{
+    //    _viewportBounds = viewportBounds;
+    //    AddWeapon(_test);
+    //}
+
+    public PlayerWeapons(ViewportBounds viewportBounds, Transform owner, WeaponData testWeapon)
     {
         _viewportBounds = viewportBounds;
-        AddWeapon(_test);
+        _owner = owner;
+        AddWeapon(testWeapon);
     }
 
-    private void Update()
+    public void Attack()
     {
         foreach (var weapon in _currentWeapons)
             weapon.Value.Attack(); 
@@ -22,7 +30,7 @@ public class PlayerWeapons : MonoBehaviour
 
     public void AddWeapon(WeaponData weaponData)
     {
-        if (_currentWeapons.TryAdd(weaponData, new Weapon(weaponData, transform, _viewportBounds))) return;
+        if (_currentWeapons.TryAdd(weaponData, new Weapon(weaponData, _owner, _viewportBounds))) return;
         else
         {
             Debug.Log("This weapon has been added to the inventory already. Increasing its lvl...");

@@ -1,46 +1,25 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
-public class PlayerMovement : MonoBehaviour, VampSym_Actions.IPlayerActions //should move the input somewhere else
+public class PlayerMovement 
 {
-    //movement settings
-    [SerializeField] private float _movementSpeed;
-    private Vector2 _movementVector;
+    private float _speed;
+    private InputService _inputService;
 
-    //input actions settings
-    private VampSym_Actions _actions;
-    private VampSym_Actions.PlayerActions _player;
-
-    public void Initialize()
+    public PlayerMovement(float speed, InputService inputService)
     {
-        _actions = new VampSym_Actions();
-        _player = _actions.Player;
-        _player.AddCallbacks(this);
+        _speed = speed;
+        _inputService = inputService;
     }
 
-    private void Update()
+    public void MovePlayer(Transform player)
     {
-        Vector2 movementVector = _movementVector * _movementSpeed * Time.deltaTime;
-        transform.position = (Vector2)transform.position + movementVector;
-    }
+        if (_inputService == null)
+        {
+            Debug.LogError("Input Service is not initialized in Player Movement!");
+            return;
+        } 
 
-    private void OnEnable()
-    {
-        _player.Enable();
-    }
-
-    private void OnDisable()
-    {
-        _player.Disable();
-    }
-
-    private void OnDestroy()
-    {
-        _actions.Dispose();
-    }
-
-    public void OnMove(InputAction.CallbackContext context)
-    {
-        _movementVector = context.ReadValue<Vector2>();
+        Vector2 movementVector = _inputService.MoveDirection * _speed * Time.deltaTime;
+        player.position = (Vector2)player.position + movementVector;
     }
 }

@@ -1,10 +1,10 @@
 using System;
 using UnityEngine;
 
-public class PlayerHealth: MonoBehaviour //should it really be a monobeh?
+public class PlayerHealth//: MonoBehaviour //should it really be a monobeh?
 {
-    [SerializeField] private float _playerCurrentHealth;
-    [SerializeField] private float _playerMaxHealth;
+    private float _playerCurrentHealth;
+    private float _playerMaxHealth;
 
     //not sure, but maybe I should make different events on health restored and on damage dealed 
     public event Action<float, float> OnPlayerHealthChange;
@@ -15,7 +15,6 @@ public class PlayerHealth: MonoBehaviour //should it really be a monobeh?
         private set
         {
             float clamped = Mathf.Clamp(value, 0f, _playerMaxHealth);
-            //if (clamped == _playerCurrentHealth) return;
             if (Mathf.Approximately(clamped, _playerCurrentHealth)) return; //I remembered there was such a way to compare float values in Unity, but I forgot exact scripting, so I asked Claude about it
             _playerCurrentHealth = clamped;
             OnPlayerHealthChange?.Invoke(_playerCurrentHealth, _playerMaxHealth);
@@ -23,13 +22,19 @@ public class PlayerHealth: MonoBehaviour //should it really be a monobeh?
         }
     }
 
-    public void OnDamageDealed(float amount)
+    public PlayerHealth(float playerMaxHealth)
+    {
+        _playerMaxHealth = playerMaxHealth;
+        PlayerCurrentHealth = _playerMaxHealth;
+    }
+
+    public void ReceiveDamage(float amount)
     {
         PlayerCurrentHealth -= amount;
         Debug.Log($"The player was damaged by the amount of {amount}");
     }
 
-    public void OnHealthRestored(float amount)
+    public void RestoreHealth(float amount)
     {
         PlayerCurrentHealth += amount;
         Debug.Log($"The player was healed by the amount of {amount}");

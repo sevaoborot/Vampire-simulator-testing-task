@@ -4,6 +4,9 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private EnemyData _enemyData;
+
+    public float Damage { get; private set; }
+
     private EnemyHealth _enemyHealth;
     private EnemyMovement _enemyMovement;
 
@@ -14,6 +17,8 @@ public class Enemy : MonoBehaviour
     {
         _player = player;
         _poolRelease = poolRelease;
+
+        Damage = _enemyData.Damage;
 
         _enemyHealth = new EnemyHealth(_enemyData.MaxHealth);
         _enemyMovement = new EnemyMovement();
@@ -29,9 +34,9 @@ public class Enemy : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision) //should be changed to collision?
     {
         if (collision.TryGetComponent<WeaponProjectile>(out WeaponProjectile weaponProjectile))
-            _enemyHealth.OnDamageDealed(weaponProjectile.Damage);
-        if (collision.TryGetComponent<PlayerHealth>(out PlayerHealth playerHealth))
-            playerHealth.OnDamageDealed(_enemyData.Damage);
+            _enemyHealth.ReceiveDamage(weaponProjectile.Damage);
+        //if (collision.TryGetComponent<PlayerHealth>(out PlayerHealth playerHealth))
+        //    playerHealth.RecieveDamage(_enemyData.Damage);
     }
 
     private void Death()

@@ -14,7 +14,7 @@ public class EnemyHealth //: MonoBehaviour
     {
         _enemyMaxHealth = enemyMaxHealth;
         _enemyCurrentHealth = _enemyMaxHealth;
-        Debug.Log($"Current enemy health is {_enemyCurrentHealth}");
+        //Debug.Log($"Current enemy health is {_enemyCurrentHealth}");
     }
 
     public float EnemyCurrentHealth
@@ -34,7 +34,7 @@ public class EnemyHealth //: MonoBehaviour
         }
     }
 
-    public void OnDamageDealed(float amount)
+    public void ReceiveDamage(float amount)
     {
         EnemyCurrentHealth -= amount;
     }

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(ExpPointSpawner))]
 public class EnemySpawner : MonoBehaviour
 {
     [Header("Spawn area settings")]
@@ -11,7 +12,9 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private GameObject _enemyPrefab;
     [SerializeField] private float _spawningCooldown;
     [SerializeField] private Transform _player;
+
     private CustomObjectPool _enemyPool;
+    private ExpPointSpawner _expPointSpawner;
     private float _enemySpawningCooldownEndTime;
 
     private bool _canSpawn => Time.time >= _enemySpawningCooldownEndTime;
@@ -20,6 +23,8 @@ public class EnemySpawner : MonoBehaviour
     {
         _spawnArea = new EnemySpawnArea(viewportBounds, _spawnOffset);
         _enemyPool = new CustomObjectPool(_enemyPrefab, 10);
+        _expPointSpawner = GetComponent<ExpPointSpawner>();
+        _expPointSpawner.Initialize();
     }
 
     private void Update()
@@ -39,13 +44,12 @@ public class EnemySpawner : MonoBehaviour
         newEnemy.transform.position = _spawnArea.GetRandomPositionToSpawn();
         newEnemy.transform.SetParent(transform);
 
-        //EnemyMovement and EnemyHealth should be replaced later with some Enemy Data
-
         Enemy enemy = newEnemy.GetComponent<Enemy>();
         EnemyRegistry.Register(enemy);
         enemy.Initialize(_player, () =>
         {
             EnemyRegistry.Unregister(enemy);
+            _expPointSpawner.SpawnExpPoint(newEnemy.transform.position);
             _enemyPool.Release(newEnemy);
         });
         StartSpawnCooldown();
