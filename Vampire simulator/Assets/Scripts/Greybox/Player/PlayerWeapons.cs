@@ -1,19 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerWeapons //: MonoBehaviour
+public class PlayerWeapons 
 {
     //private WeaponData _testWeapon;
     private Transform _owner;
 
     private ViewportBounds _viewportBounds;
     private Dictionary<WeaponData, Weapon> _currentWeapons = new Dictionary<WeaponData, Weapon>();
-
-    //public void Initialize(ViewportBounds viewportBounds)
-    //{
-    //    _viewportBounds = viewportBounds;
-    //    AddWeapon(_test);
-    //}
 
     public PlayerWeapons(ViewportBounds viewportBounds, Transform owner, WeaponData testWeapon)
     {

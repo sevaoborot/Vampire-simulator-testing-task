@@ -9,12 +9,12 @@ public class Player : MonoBehaviour
     private PlayerWeapons _playerWeapons;
     private PlayerLevel _playerLevel;
 
-    public void Initialize(ViewportBounds viewportBounds, InputService inputService)
+    public void Initialize(EventBus eventBus, ViewportBounds viewportBounds, InputService inputService)
     {
-        _playerHealth = new PlayerHealth(_playerData.maxHealth);
+        _playerHealth = new PlayerHealth(eventBus, _playerData.maxHealth);
         _playerMovement = new PlayerMovement(_playerData.speed, inputService);
         _playerWeapons = new PlayerWeapons(viewportBounds, transform, _playerData.weapons[0]);
-        _playerLevel = new PlayerLevel(_playerData.expAmountForUnlockingLevel, _playerData.levelIncrement);
+        _playerLevel = new PlayerLevel(eventBus, _playerData.expAmountForUnlockingLevel, _playerData.levelIncrement);
     }
 
     private void Update()

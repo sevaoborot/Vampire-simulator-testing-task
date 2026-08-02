@@ -13,7 +13,7 @@ public class PlayerLevel
     private float _expAmountForUnlockingNextLevel;
     private float _totalExpAmount; //cant be negative
 
-    public event Action<float, float> OnCurrentLevelExpAmountChange;
+    private EventBus _eventBus;
 
     public int CurrentLevel
     {
@@ -24,6 +24,7 @@ public class PlayerLevel
             _currentLevel = value;
             _expAmountForUnlockingNextLevel *= _levelIncrement;
             CurrentLevelExpAmount = 0f;
+            _eventBus.Invoke(new LevelChangedSignal(_currentLevel));
         }
     }
 
@@ -35,7 +36,7 @@ public class PlayerLevel
             float clamped = Mathf.Clamp(value, 0f, _expAmountForUnlockingNextLevel);
             if (Mathf.Approximately(clamped, _currentLevelExpAmount)) return;
             _currentLevelExpAmount = clamped;
-            OnCurrentLevelExpAmountChange?.Invoke(_currentLevelExpAmount, _expAmountForUnlockingNextLevel);
+            _eventBus.Invoke(new CurrentLevelExpChangedSignal(_currentLevelExpAmount));
             if (_currentLevelExpAmount >= _expAmountForUnlockingNextLevel) CurrentLevel++;
         }
     }
@@ -50,21 +51,18 @@ public class PlayerLevel
         }
     }
 
-    public PlayerLevel(float expAmountForUnlockingLevel, float levelIncrement)
+    public PlayerLevel(EventBus eventBus, float expAmountForUnlockingLevel, float levelIncrement)
     {
+        _eventBus = eventBus;
         CurrentLevel = 0;
         _expAmountForUnlockingLevel = expAmountForUnlockingLevel;
         _levelIncrement = levelIncrement;
         _expAmountForUnlockingNextLevel = _expAmountForUnlockingLevel * _levelIncrement;
-        Debug.Log($"Initializing player's level...");
-        Debug.Log($"Current level: {CurrentLevel}, to unlock next level the player need to collect {_expAmountForUnlockingNextLevel}");
-
     }
 
     public void ReceiveExp(float amount)
     {
         TotalExpAmount += amount;
         CurrentLevelExpAmount += amount;
-        Debug.Log($"Recieved {amount} EXP, currently on LVL {_currentLevel}, need to collect {_currentLevelExpAmount}/{_expAmountForUnlockingNextLevel}, total EXP collected: {_totalExpAmount}");
     }
 }
