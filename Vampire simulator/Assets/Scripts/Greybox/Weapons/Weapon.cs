@@ -2,13 +2,19 @@ using UnityEngine;
 
 public class Weapon 
 {
-    private GameObject _projectile; //+
-    private int _weaponLevel;
-    private float _projectileSpeed; //+
-    private float _projectileDamage; //+
-    private int _projectileNumber;
-    private float _weaponCooldown; //+
-    private ProjectileBehavioursEnum _projectileBehaviour; //+
+    private WeaponData _data;
+
+    private int _currentLevel;
+
+    public int CurrentLevel
+    {
+        get => _currentLevel;
+        private set
+        {
+            int clamped = Mathf.Clamp(value, 0, _data.weaponLevels.Length - 1);
+            _currentLevel = clamped;
+        }
+    }
 
     private Transform _playerTransform;
     private CustomObjectPool _projectilesPool;
@@ -19,42 +25,44 @@ public class Weapon
 
     public Weapon(WeaponData weaponData, Transform playerTransform, ViewportBounds viewportBounds)
     {
-        _projectile = weaponData.projectile;
-        _weaponLevel = weaponData.weaponLevel;
-        _projectileSpeed = weaponData.projectileSpeed;
-        _projectileDamage = weaponData.projectileDamage;
-        _projectileNumber = weaponData.projectileNumber;
-        _weaponCooldown = weaponData.weaponCooldown;
-        _projectileBehaviour = weaponData.projectileBehaviour;
-
+        _data = weaponData;
+        CurrentLevel = 0;
         _playerTransform = playerTransform;
 
-        _projectilesPool = new CustomObjectPool(_projectile, 5);
+        _projectilesPool = new CustomObjectPool(_data.projectile, 5);
         _viewportBounds = viewportBounds;
 
-        Debug.Log($"{_viewportBounds.viewportRect.xMin}, {_viewportBounds.viewportRect.yMin}");
-
-        StartCooldown();
+        StartCooldown(_data.weaponLevels[0].weaponCooldown);
     }
 
     public void Attack()
     {
         if (!_canAttack) return;
-        GameObject newProjectile = _projectilesPool.Get();
-        newProjectile.transform.position = _playerTransform.position;
-        newProjectile.GetComponent<WeaponProjectile>().Initialize( 
-            _viewportBounds, 
-            ChooseProjectileMovement(newProjectile, _projectileBehaviour), 
-            () => _projectilesPool.Release(newProjectile),
-            _projectileDamage);
-        StartCooldown();
+
+        float currentSpeed = _data.weaponLevels[CurrentLevel].projectileSpeed;
+        float currentDamage = _data.weaponLevels[CurrentLevel].projectileDamage;
+        int currentNumber = _data.weaponLevels[CurrentLevel].projectileNumber;
+        float currentCooldown = _data.weaponLevels[CurrentLevel].weaponCooldown;
+
+        GameObject newPorjectile = _projectilesPool.Get();
+        newPorjectile.transform.position = _playerTransform.position;
+        newPorjectile.GetComponent<WeaponProjectile>().Initialize(
+            _viewportBounds,
+            ChooseProjectileMovement(newPorjectile, _data.projectileBehaviour, currentSpeed),
+            () => _projectilesPool.Release(newPorjectile),
+            currentDamage);
+        StartCooldown(currentCooldown);
 
         //stop cooldowns
     }
 
-    private void StartCooldown()
+    public void UpgrateWeapon() => CurrentLevel++;
+
+    public bool SameID(string ID) => ID == _data.weaponID;
+
+    private void StartCooldown(float weaponCooldown)
     {
-        _weaponCooldownEndTime = Time.time + _weaponCooldown;
+        _weaponCooldownEndTime = Time.time + weaponCooldown;
     }
 
     private void InterruptCooldown()
@@ -62,15 +70,15 @@ public class Weapon
         _weaponCooldownEndTime = Time.time;
     }
 
-    private IProjectileMovement ChooseProjectileMovement(GameObject projectile, ProjectileBehavioursEnum projectileBehaviour)
+    private IProjectileMovement ChooseProjectileMovement(GameObject projectile, ProjectileBehavioursEnum projectileBehaviour, float projectileSpeed)
     {
         switch (projectileBehaviour)
         {
             case ProjectileBehavioursEnum.ProjectileFollowsEnemyMovement:
-                return new ProjectileFollowsEnemyMovement(projectile.transform, _projectileSpeed); 
+                return new ProjectileFollowsEnemyMovement(projectile.transform, projectileSpeed); 
             default:
                 Debug.LogError("No movement logic for projectile! Returning basic stuff");
-                return new ProjectileFollowsEnemyMovement(projectile.transform, _projectileSpeed);
+                return new ProjectileFollowsEnemyMovement(projectile.transform, projectileSpeed);
         }
     }
 }

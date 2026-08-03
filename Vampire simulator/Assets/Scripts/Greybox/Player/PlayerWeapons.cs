@@ -3,10 +3,9 @@ using UnityEngine;
 
 public class PlayerWeapons 
 {
-    //private WeaponData _testWeapon;
     private Transform _owner;
-
     private ViewportBounds _viewportBounds;
+
     private Dictionary<WeaponData, Weapon> _currentWeapons = new Dictionary<WeaponData, Weapon>();
 
     public PlayerWeapons(ViewportBounds viewportBounds, Transform owner, WeaponData testWeapon)
@@ -19,16 +18,25 @@ public class PlayerWeapons
     public void Attack()
     {
         foreach (var weapon in _currentWeapons)
-            weapon.Value.Attack(); 
+            weapon.Value.Attack();
     }
 
-    public void AddWeapon(WeaponData weaponData)
+    public void AddWeapon(WeaponData weaponData) //not finished or tested yet
     {
-        if (_currentWeapons.TryAdd(weaponData, new Weapon(weaponData, _owner, _viewportBounds))) return;
-        else
+        //if (_currentWeapons.TryAdd(weaponData, new Weapon(weaponData, _owner, _viewportBounds))) return;
+        //else
+        //{
+        //    Debug.Log("This weapon has been added to the inventory already. Increasing its lvl...");
+        //    //increasing lvl...
+        //}
+        foreach(var weapon in _currentWeapons)
         {
-            Debug.Log("This weapon has been added to the inventory already. Increasing its lvl...");
-            //increasing lvl...
+            if (weapon.Value.SameID(weaponData.weaponID))
+            {
+                weapon.Value.UpgrateWeapon();
+                return;
+            }
         }
+        _currentWeapons.Add(weaponData, new Weapon(weaponData, _owner, _viewportBounds));
     }
 }
