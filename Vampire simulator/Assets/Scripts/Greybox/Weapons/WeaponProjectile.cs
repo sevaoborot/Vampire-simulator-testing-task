@@ -23,7 +23,7 @@ public class WeaponProjectile : MonoBehaviour
 
     private void Update()
     {
-        if (_movement != null) _movement.Move(transform);
+        if (_movement != null && Time.timeScale != 0f) _movement.Move(transform);
     }
 
     private void LateUpdate()

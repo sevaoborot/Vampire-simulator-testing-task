@@ -28,15 +28,18 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
-        if (_player != null) transform.position = _enemyMovement.Move(transform, _player, _enemyData.MaxSpeed);
+        if (_player != null && Time.timeScale != 0f) transform.position = _enemyMovement.Move(transform, _player, _enemyData.MaxSpeed);
     }
 
     private void OnTriggerEnter2D(Collider2D collision) //should be changed to collision?
     {
-        if (collision.TryGetComponent<WeaponProjectile>(out WeaponProjectile weaponProjectile))
-            _enemyHealth.ReceiveDamage(weaponProjectile.Damage);
-        //if (collision.TryGetComponent<PlayerHealth>(out PlayerHealth playerHealth))
-        //    playerHealth.RecieveDamage(_enemyData.Damage);
+        if (Time.timeScale != 0f)
+        {
+            if (collision.TryGetComponent<WeaponProjectile>(out WeaponProjectile weaponProjectile))
+                _enemyHealth.ReceiveDamage(weaponProjectile.Damage);
+            //if (collision.TryGetComponent<PlayerHealth>(out PlayerHealth playerHealth))
+            //    playerHealth.RecieveDamage(_enemyData.Damage);
+        }
     }
 
     private void Death()

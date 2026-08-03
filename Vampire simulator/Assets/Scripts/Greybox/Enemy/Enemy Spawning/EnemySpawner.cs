@@ -29,7 +29,7 @@ public class EnemySpawner : MonoBehaviour
 
     private void Update()
     {
-        SpawnEnemy();
+        if (Time.timeScale != 0f) SpawnEnemy();
     }
 
     private void LateUpdate()

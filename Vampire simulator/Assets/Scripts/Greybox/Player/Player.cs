@@ -19,19 +19,25 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        _playerMovement?.MovePlayer(transform);
-        _playerWeapons?.Attack();
+        if (Time.timeScale != 0f)
+        {
+            _playerMovement?.MovePlayer(transform);
+            _playerWeapons?.Attack();
+        }            
     }
 
     //should be replaced with receiving continuous damage in ontriggerstay2d
     private void OnTriggerEnter2D(Collider2D collision) 
     {
-        if (collision.TryGetComponent<Enemy>(out Enemy currentEnemy))
-            _playerHealth?.ReceiveDamage(currentEnemy.Damage);
-        if (collision.TryGetComponent<ExpPoint>(out ExpPoint currentExpPoint))
+        if (Time.timeScale != 0f)
         {
-            _playerLevel?.ReceiveExp(currentExpPoint.expAmount);
-            currentExpPoint.PickUpExp();
+            if (collision.TryGetComponent<Enemy>(out Enemy currentEnemy))
+                _playerHealth?.ReceiveDamage(currentEnemy.Damage);
+            if (collision.TryGetComponent<ExpPoint>(out ExpPoint currentExpPoint))
+            {
+                _playerLevel?.ReceiveExp(currentExpPoint.expAmount);
+                currentExpPoint.PickUpExp();
+            }
         }
     }
 
