@@ -4,9 +4,9 @@ public class HealthElement : UIElement
 {
     private TextMeshProUGUI _healthText;
 
-    public override void Initialize(EventBus eventBus)
+    public override void Initialize(UIContext context)
     {
-        base.Initialize(eventBus);
+        base.Initialize(context);
 
         _healthText = GetComponent<TextMeshProUGUI>();
         _eventBus.Subscribe<HealthChangedSignal>(GetHealthInfo);

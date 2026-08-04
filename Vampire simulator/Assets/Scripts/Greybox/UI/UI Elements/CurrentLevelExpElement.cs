@@ -4,9 +4,9 @@ public class CurrentLevelExpElement : UIElement
 {
     private TextMeshProUGUI _currentExpText;
 
-    public override void Initialize(EventBus eventBus)
+    public override void Initialize(UIContext context)
     {
-        base.Initialize(eventBus);
+        base.Initialize(context);
 
         _currentExpText = GetComponent<TextMeshProUGUI>();
         _eventBus.Subscribe<CurrentLevelExpChangedSignal>(GetExpInfo);

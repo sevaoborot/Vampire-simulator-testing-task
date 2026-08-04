@@ -4,9 +4,9 @@ public class LevelElement: UIElement
 {
     private TextMeshProUGUI _levelText;
 
-    public override void Initialize(EventBus eventBus)
+    public override void Initialize(UIContext context)
     {
-        base.Initialize(eventBus);
+        base.Initialize(context);
 
         _levelText = GetComponent<TextMeshProUGUI>();
         _eventBus.Subscribe<LevelChangedSignal>(GetLevelInfo);

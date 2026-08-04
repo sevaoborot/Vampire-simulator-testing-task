@@ -21,7 +21,7 @@ public class GamemodeInitialize : MonoBehaviour
 
         _player.Initialize(_eventBus, _viewportBounds, _inputService);
         _enemySpawner.Initialize(_viewportBounds);
-        _ui.Initialize(_eventBus);
+        _ui.Initialize(_eventBus, _player.weapons);
     }
 
     private void OnEnable()

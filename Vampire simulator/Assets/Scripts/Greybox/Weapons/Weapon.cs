@@ -32,6 +32,8 @@ public class Weapon
         _projectilesPool = new CustomObjectPool(_data.projectile, 5);
         _viewportBounds = viewportBounds;
 
+        Debug.Log($"Weapon {_data.weaponID} added!");
+
         StartCooldown(_data.weaponLevels[0].weaponCooldown);
     }
 
@@ -56,7 +58,11 @@ public class Weapon
         //stop cooldowns
     }
 
-    public void UpgrateWeapon() => CurrentLevel++;
+    public void UpgrateWeapon()
+    {
+        CurrentLevel++;
+        Debug.Log($"{_data.weaponID} got level {CurrentLevel}");
+    }
 
     public bool SameID(string ID) => ID == _data.weaponID;
 
