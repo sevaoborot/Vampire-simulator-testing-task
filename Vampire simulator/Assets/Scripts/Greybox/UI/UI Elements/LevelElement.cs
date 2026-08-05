@@ -12,6 +12,13 @@ public class LevelElement: UIElement
         _eventBus.Subscribe<LevelChangedSignal>(GetLevelInfo);
     }
 
+    public override void OnDestroy()
+    {
+        base.OnDestroy();
+
+        _eventBus.Unsubscribe<LevelChangedSignal>(GetLevelInfo);
+    }
+
     private void GetLevelInfo(LevelChangedSignal signal)
     {
         UpdateElement(signal.Level);

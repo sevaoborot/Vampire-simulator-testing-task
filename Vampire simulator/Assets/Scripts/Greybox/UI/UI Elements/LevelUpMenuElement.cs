@@ -21,6 +21,13 @@ public class LevelUpMenuElement : UIElement
         _newWeaponSelector = new NewWeaponSelector(context.eventBus, context.weapons);
     }
 
+    public override void OnDestroy()
+    {
+        base.OnDestroy();
+
+        _eventBus.Unsubscribe<LevelChangedSignal>(ActivateLevelUpMenu);
+    }
+
     private void ActivateLevelUpMenu(LevelChangedSignal signal)
     {
         SetTimeScale(0f);

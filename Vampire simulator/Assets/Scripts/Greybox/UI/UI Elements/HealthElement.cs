@@ -12,6 +12,13 @@ public class HealthElement : UIElement
         _eventBus.Subscribe<HealthChangedSignal>(GetHealthInfo);
     }
 
+    public override void OnDestroy()
+    {
+        base.OnDestroy();
+
+        _eventBus.Unsubscribe<HealthChangedSignal>(GetHealthInfo);
+    }
+
     private void GetHealthInfo(HealthChangedSignal signal)
     {
         UpdateElement(signal.Health);

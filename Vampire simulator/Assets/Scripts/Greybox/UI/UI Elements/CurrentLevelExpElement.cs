@@ -12,6 +12,13 @@ public class CurrentLevelExpElement : UIElement
         _eventBus.Subscribe<CurrentLevelExpChangedSignal>(GetExpInfo);
     }
 
+    public override void OnDestroy()
+    {
+        base.OnDestroy();
+
+        _eventBus.Unsubscribe<CurrentLevelExpChangedSignal>(GetExpInfo);
+    }
+
     private void GetExpInfo(CurrentLevelExpChangedSignal signal)
     {
         UpdateElement(signal.CurrentExp);

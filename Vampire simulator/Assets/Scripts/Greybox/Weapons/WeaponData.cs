@@ -15,7 +15,6 @@ public struct WeaponLevels
 {
     public string levelDescription;
 
-    //public int weaponLevel;
     public float projectileSpeed;
     public float projectileDamage;
     public int projectileNumber;

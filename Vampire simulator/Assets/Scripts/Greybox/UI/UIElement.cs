@@ -10,4 +10,8 @@ public abstract class UIElement : MonoBehaviour
     }
 
     //but where we unsubscribe?
+    public virtual void OnDestroy()
+    {
+        //should be implemented in other UI elements
+    }
 }
