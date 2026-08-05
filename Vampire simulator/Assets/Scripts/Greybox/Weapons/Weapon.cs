@@ -1,3 +1,5 @@
+using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Weapon 
@@ -18,10 +20,14 @@ public class Weapon
 
     private Transform _playerTransform;
     private CustomObjectPool _projectilesPool;
-    private float _weaponCooldownEndTime;
     private ViewportBounds _viewportBounds;
 
+    private float _weaponCooldownEndTime;
     private bool _canAttack => Time.time >= _weaponCooldownEndTime;
+
+    private float _projectileCooldown = 0.1f; //0.1 is too short
+    private float _projectileCooldownTime;
+    private bool _canSpawnMoreProjectiles => Time.time >= _projectileCooldownTime;
 
     public Weapon(WeaponData weaponData, Transform playerTransform, ViewportBounds viewportBounds)
     {
@@ -37,25 +43,37 @@ public class Weapon
         StartCooldown(_data.weaponLevels[0].weaponCooldown);
     }
 
-    public void Attack()
+    public void Attack(MonoBehaviour owner)
     {
         if (!_canAttack) return;
 
+        //CreateProjectile();
+        owner.StartCoroutine(CreateProjectile());
+    }
+
+    private IEnumerator CreateProjectile() //spawning the endless amount of projectiles
+    {
         float currentSpeed = _data.weaponLevels[CurrentLevel].projectileSpeed;
         float currentDamage = _data.weaponLevels[CurrentLevel].projectileDamage;
-        int currentNumber = _data.weaponLevels[CurrentLevel].projectileNumber;
+        int currentProjectileNumber = _data.weaponLevels[CurrentLevel].projectileNumber;
         float currentCooldown = _data.weaponLevels[CurrentLevel].weaponCooldown;
 
-        GameObject newPorjectile = _projectilesPool.Get();
-        newPorjectile.transform.position = _playerTransform.position;
-        newPorjectile.GetComponent<WeaponProjectile>().Initialize(
-            _viewportBounds,
-            ChooseProjectileMovement(newPorjectile, _data.projectileBehaviour, currentSpeed),
-            () => _projectilesPool.Release(newPorjectile),
-            currentDamage);
+        Debug.Log($"current number of projectiles: {currentProjectileNumber}");
+
         StartCooldown(currentCooldown);
 
-        //stop cooldowns
+        for (int i = 0; i < currentProjectileNumber; i++)
+        {
+            GameObject newPorjectile = _projectilesPool.Get();
+            newPorjectile.transform.position = _playerTransform.position;
+            newPorjectile.GetComponent<WeaponProjectile>().Initialize(
+                _viewportBounds,
+                ChooseProjectileMovement(newPorjectile, _data.projectileBehaviour, currentSpeed),
+                () => _projectilesPool.Release(newPorjectile),
+                currentDamage);
+
+            yield return new WaitForSeconds(_projectileCooldown);
+        }
     }
 
     public void UpgrateWeapon()
@@ -66,15 +84,9 @@ public class Weapon
 
     public bool SameID(string ID) => ID == _data.weaponID;
 
-    private void StartCooldown(float weaponCooldown)
-    {
-        _weaponCooldownEndTime = Time.time + weaponCooldown;
-    }
+    private void StartCooldown(float weaponCooldown) => _weaponCooldownEndTime = Time.time + weaponCooldown;
 
-    private void InterruptCooldown()
-    {
-        _weaponCooldownEndTime = Time.time;
-    }
+    private void InterruptCooldown() => _weaponCooldownEndTime = Time.time;
 
     private IProjectileMovement ChooseProjectileMovement(GameObject projectile, ProjectileBehavioursEnum projectileBehaviour, float projectileSpeed)
     {

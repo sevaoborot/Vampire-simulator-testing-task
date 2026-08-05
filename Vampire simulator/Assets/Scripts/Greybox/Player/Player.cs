@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
     {
         _playerHealth = new PlayerHealth(eventBus, _playerData.maxHealth);
         _playerMovement = new PlayerMovement(_playerData.speed, inputService);
-        _playerWeapons = new PlayerWeapons(viewportBounds, transform, _playerData.weapons[0], eventBus);
+        _playerWeapons = new PlayerWeapons(viewportBounds, transform, this, _playerData.weapons[0], eventBus);
         _playerLevel = new PlayerLevel(eventBus, _playerData.expAmountForUnlockingLevel, _playerData.levelIncrement);
     }
 

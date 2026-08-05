@@ -4,14 +4,10 @@ public abstract class UIElement : MonoBehaviour
 {
     protected EventBus _eventBus;
 
-    public virtual void Initialize(UIContext context) //here we subscribe
+    public virtual void Initialize(UIContext context) 
     {
         _eventBus = context.eventBus;
     }
 
-    //but where we unsubscribe?
-    public virtual void OnDestroy()
-    {
-        //should be implemented in other UI elements
-    }
+    public virtual void OnDestroy() { }
 }
