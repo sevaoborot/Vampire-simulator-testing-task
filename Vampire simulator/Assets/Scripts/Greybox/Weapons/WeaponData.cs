@@ -19,4 +19,5 @@ public struct WeaponLevels
     public float projectileDamage;
     public int projectileNumber;
     public float weaponCooldown;
+    public int maxEnemiesToHit;
 }

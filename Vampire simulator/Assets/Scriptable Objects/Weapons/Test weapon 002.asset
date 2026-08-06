@@ -15,44 +15,4 @@ MonoBehaviour:
   weaponID: Destroyer
   projectile: {fileID: 8646682986074405759, guid: 995b57fa441fe3242874582d6d282e8d, type: 3}
   projectileBehaviour: 0
-  weaponLevels:
-  - levelDescription: Base level
-    projectileSpeed: 2
-    projectileDamage: 10
-    projectileNumber: 1
-    weaponCooldown: 3
-  - levelDescription: +1 projectile
-    projectileSpeed: 2
-    projectileDamage: 10
-    projectileNumber: 2
-    weaponCooldown: 3
-  - levelDescription: Cooldown is decreased by 0.5s
-    projectileSpeed: 2
-    projectileDamage: 10
-    projectileNumber: 2
-    weaponCooldown: 2.5
-  - levelDescription: +1 projectile
-    projectileSpeed: 2
-    projectileDamage: 10
-    projectileNumber: 3
-    weaponCooldown: 2.5
-  - levelDescription: Damage is increased by 10
-    projectileSpeed: 2
-    projectileDamage: 20
-    projectileNumber: 3
-    weaponCooldown: 2.5
-  - levelDescription: +1 projectile
-    projectileSpeed: 2
-    projectileDamage: 20
-    projectileNumber: 4
-    weaponCooldown: 2.5
-  - levelDescription: TBA
-    projectileSpeed: 2
-    projectileDamage: 20
-    projectileNumber: 4
-    weaponCooldown: 2.5
-  - levelDescription: Damage is increased by 10
-    projectileSpeed: 2
-    projectileDamage: 30
-    projectileNumber: 4
-    weaponCooldown: 2.5
+  weaponLevels: []

@@ -27,7 +27,7 @@ public class Weapon
 
     private float _projectileCooldown = 0.1f; //0.1 is too short
     private float _projectileCooldownTime;
-    private bool _canSpawnMoreProjectiles => Time.time >= _projectileCooldownTime;
+    //private bool _canSpawnMoreProjectiles => Time.time >= _projectileCooldownTime;
 
     public Weapon(WeaponData weaponData, Transform playerTransform, ViewportBounds viewportBounds)
     {
@@ -57,6 +57,7 @@ public class Weapon
         float currentDamage = _data.weaponLevels[CurrentLevel].projectileDamage;
         int currentProjectileNumber = _data.weaponLevels[CurrentLevel].projectileNumber;
         float currentCooldown = _data.weaponLevels[CurrentLevel].weaponCooldown;
+        int currentMaxEnemiesToHit = _data.weaponLevels[CurrentLevel].maxEnemiesToHit;
 
         Debug.Log($"current number of projectiles: {currentProjectileNumber}");
 
@@ -70,7 +71,8 @@ public class Weapon
                 _viewportBounds,
                 ChooseProjectileMovement(newPorjectile, _data.projectileBehaviour, currentSpeed),
                 () => _projectilesPool.Release(newPorjectile),
-                currentDamage);
+                currentDamage,
+                currentMaxEnemiesToHit);
 
             yield return new WaitForSeconds(_projectileCooldown);
         }

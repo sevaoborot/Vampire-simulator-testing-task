@@ -9,16 +9,18 @@ public class WeaponProjectile : MonoBehaviour
     private IProjectileMovement _movement;
     private ViewportBounds _viewportBounds;
     private Action _poolRelease;
-    //private bool _isInit = false;
+    private int _maxEnemiesToHit;
+    private int _currentEnemies;
+    private bool _IsMaxEnemiesHit => _currentEnemies == _maxEnemiesToHit;
 
-    public void Initialize(ViewportBounds viewportBounds, IProjectileMovement projectileMovement, Action projectileRelease, float projectileDamage)
+    public void Initialize(ViewportBounds viewportBounds, IProjectileMovement projectileMovement, Action projectileRelease, float projectileDamage, int maxEnemiesToHit)
     {
         _movement = projectileMovement;
         _viewportBounds = viewportBounds;
         _poolRelease = projectileRelease;
         Damage = projectileDamage;
-
-        //_isInit = true;
+        _maxEnemiesToHit = maxEnemiesToHit;
+        _currentEnemies = 0;
     }
 
     private void Update()
@@ -28,14 +30,15 @@ public class WeaponProjectile : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (!CheckProjectileVisibility()) ReleaseProjectile();
+        if (_IsMaxEnemiesHit || !CheckProjectileVisibility()) ReleaseProjectile();
     }
 
-    public void ReleaseProjectile()
+    private void ReleaseProjectile()
     {
-        //_isInit = false;
         _poolRelease();
     }
+
+    public void RegisterEnemyHit() => _currentEnemies++;
 
     private bool CheckProjectileVisibility()
     {

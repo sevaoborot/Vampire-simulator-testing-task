@@ -36,9 +36,10 @@ public class Enemy : MonoBehaviour
         if (Time.timeScale != 0f)
         {
             if (collision.TryGetComponent<WeaponProjectile>(out WeaponProjectile weaponProjectile))
+            {
                 _enemyHealth.ReceiveDamage(weaponProjectile.Damage);
-            //if (collision.TryGetComponent<PlayerHealth>(out PlayerHealth playerHealth))
-            //    playerHealth.RecieveDamage(_enemyData.Damage);
+                weaponProjectile.RegisterEnemyHit();
+            }
         }
     }
 
