@@ -14,53 +14,53 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponID: knife
   projectile: {fileID: 8646682986074405759, guid: 995b57fa441fe3242874582d6d282e8d, type: 3}
-  projectileBehaviour: 0
+  projectileBehaviour: 1
   weaponLevels:
-  - levelDescription: Base level
-    projectileSpeed: 2
-    projectileDamage: 10
+  - levelDescription: Fires quickly in the faced direction
+    projectileSpeed: 3
+    projectileDamage: 6.5
     projectileNumber: 1
-    weaponCooldown: 3
-    maxEnemiesToHit: 0
+    weaponCooldown: 1
+    maxEnemiesToHit: 1
   - levelDescription: +1 projectile
-    projectileSpeed: 2
-    projectileDamage: 10
+    projectileSpeed: 3
+    projectileDamage: 6.5
     projectileNumber: 2
-    weaponCooldown: 3
-    maxEnemiesToHit: 0
-  - levelDescription: Cooldown is decreased by 0.5s
-    projectileSpeed: 2
-    projectileDamage: 10
-    projectileNumber: 2
-    weaponCooldown: 2.5
-    maxEnemiesToHit: 0
-  - levelDescription: +1 projectile
-    projectileSpeed: 2
-    projectileDamage: 10
+    weaponCooldown: 1
+    maxEnemiesToHit: 1
+  - levelDescription: +1 projectile, damage is increased by 5
+    projectileSpeed: 3
+    projectileDamage: 11.5
     projectileNumber: 3
-    weaponCooldown: 2.5
-    maxEnemiesToHit: 0
-  - levelDescription: Damage is increased by 10
-    projectileSpeed: 2
-    projectileDamage: 20
-    projectileNumber: 3
-    weaponCooldown: 2.5
-    maxEnemiesToHit: 0
+    weaponCooldown: 1
+    maxEnemiesToHit: 1
   - levelDescription: +1 projectile
-    projectileSpeed: 2
-    projectileDamage: 20
+    projectileSpeed: 3
+    projectileDamage: 11.5
     projectileNumber: 4
-    weaponCooldown: 2.5
-    maxEnemiesToHit: 0
-  - levelDescription: TBA
-    projectileSpeed: 2
-    projectileDamage: 20
+    weaponCooldown: 1
+    maxEnemiesToHit: 1
+  - levelDescription: Passes through 1 more enemy
+    projectileSpeed: 3
+    projectileDamage: 11.5
     projectileNumber: 4
-    weaponCooldown: 2.5
-    maxEnemiesToHit: 0
-  - levelDescription: Damage is increased by 10
-    projectileSpeed: 2
-    projectileDamage: 30
-    projectileNumber: 4
-    weaponCooldown: 2.5
-    maxEnemiesToHit: 0
+    weaponCooldown: 1
+    maxEnemiesToHit: 2
+  - levelDescription: +1 projectile
+    projectileSpeed: 3
+    projectileDamage: 11.5
+    projectileNumber: 5
+    weaponCooldown: 1
+    maxEnemiesToHit: 2
+  - levelDescription: +1 projectile, damage is increased by 5
+    projectileSpeed: 3
+    projectileDamage: 16.5
+    projectileNumber: 5
+    weaponCooldown: 1
+    maxEnemiesToHit: 2
+  - levelDescription: Passes through 1 more enemy
+    projectileSpeed: 3
+    projectileDamage: 16.5
+    projectileNumber: 5
+    weaponCooldown: 1
+    maxEnemiesToHit: 3
