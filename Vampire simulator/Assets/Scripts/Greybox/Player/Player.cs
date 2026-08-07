@@ -5,6 +5,7 @@ public class Player : MonoBehaviour
     [SerializeField] private PlayerData _playerData;
 
     public IPlayerWeaponsReader weapons => _playerWeapons;
+    public IPlayerDirectionReader direction => _playerMovement;
 
     private PlayerHealth _playerHealth;
     private PlayerMovement _playerMovement;
@@ -15,7 +16,7 @@ public class Player : MonoBehaviour
     {
         _playerHealth = new PlayerHealth(eventBus, _playerData.maxHealth);
         _playerMovement = new PlayerMovement(_playerData.speed, inputService);
-        _playerWeapons = new PlayerWeapons(viewportBounds, transform, this, _playerData.weapons[0], eventBus);
+        _playerWeapons = new PlayerWeapons(viewportBounds, transform, this, _playerData.weapons[0], eventBus, direction);
         _playerLevel = new PlayerLevel(eventBus, _playerData.expAmountForUnlockingLevel, _playerData.levelIncrement);
     }
 
@@ -24,7 +25,7 @@ public class Player : MonoBehaviour
         if (Time.timeScale != 0f)
         {
             _playerMovement?.MovePlayer(transform);
-            _playerWeapons?.Attack();
+            _playerWeapons?.Attack(); 
         }            
     }
 

@@ -7,31 +7,30 @@ public interface IProjectileMovement
 
 public enum ProjectileBehavioursEnum
 {
-    ProjectileFollowsEnemyMovement
+    ProjectileFollowsEnemyMovement,
+    PlayerFacedDirectionProjectileMovement
 }
 
 public class ProjectileFollowsEnemyMovement : IProjectileMovement
 {
-    private Transform _owner;
+    private Transform _player;
     private float _speed;
 
-    private EnemyMovement _enemyMovement; //EnemyMovement should be replaced later with some Enemy Data
     private Vector2 _movementVector;
 
-    public ProjectileFollowsEnemyMovement(Transform owner, float speed)
+    public ProjectileFollowsEnemyMovement(Transform player, float speed)
     {
-
-        _owner = owner;
+        _player = player;
         _speed = speed;
 
         
-        Vector2 movementVectorUnnormalized = FindNearestEnemy() - (Vector2)_owner.position;
+        Vector2 movementVectorUnnormalized = FindNearestEnemy() - (Vector2)_player.position;
         _movementVector = movementVectorUnnormalized.normalized * _speed * Time.deltaTime;
     }
 
     public Vector2 Move(Transform projectileTransform)
     {
-        _owner.position = (Vector2)_owner.position + _movementVector;
+        projectileTransform.position = (Vector2)projectileTransform.position + _movementVector;
         return _movementVector;
     }
 
@@ -42,7 +41,7 @@ public class ProjectileFollowsEnemyMovement : IProjectileMovement
 
         foreach (Enemy enemy in EnemyRegistry.ActiveEnemies)
         {
-            float sqrDistance = (enemy.transform.position - _owner.position).sqrMagnitude;
+            float sqrDistance = (enemy.transform.position - _player.position).sqrMagnitude;
             if (sqrDistance < nearestSqrDistance)
             {
                 nearestEnemy = enemy;
@@ -51,5 +50,28 @@ public class ProjectileFollowsEnemyMovement : IProjectileMovement
         }
 
         return (Vector2)nearestEnemy.transform.position;
+    }
+}
+
+public class PlayerFacedDirectionProjectileMovement : IProjectileMovement
+{
+    private float _speed;
+    private Vector2 _direction;
+    private Vector2 _movementVector;
+
+    public PlayerFacedDirectionProjectileMovement(Vector2 playerDirection, float speed)
+    {
+        Debug.Log(playerDirection);
+        _direction = playerDirection;
+        _speed = speed;;
+
+        _movementVector = _direction.normalized * _speed * Time.deltaTime;
+
+    }
+
+    public Vector2 Move(Transform projectileTransform)
+    {
+        projectileTransform.position = (Vector2)projectileTransform.position + _movementVector;
+        return _movementVector;
     }
 }

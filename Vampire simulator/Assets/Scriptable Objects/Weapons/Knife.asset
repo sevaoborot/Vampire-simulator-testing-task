@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: abe4e559e2a0366479c3b6bc1932e714, type: 3}
-  m_Name: Magic wand
+  m_Name: Knife
   m_EditorClassIdentifier: 
-  weaponID: magic_wand
+  weaponID: knife
   projectile: {fileID: 8646682986074405759, guid: 995b57fa441fe3242874582d6d282e8d, type: 3}
   projectileBehaviour: 0
   weaponLevels:
@@ -21,46 +21,46 @@ MonoBehaviour:
     projectileDamage: 10
     projectileNumber: 1
     weaponCooldown: 3
-    maxEnemiesToHit: 1
+    maxEnemiesToHit: 0
   - levelDescription: +1 projectile
     projectileSpeed: 2
     projectileDamage: 10
     projectileNumber: 2
     weaponCooldown: 3
-    maxEnemiesToHit: 1
+    maxEnemiesToHit: 0
   - levelDescription: Cooldown is decreased by 0.5s
     projectileSpeed: 2
     projectileDamage: 10
     projectileNumber: 2
     weaponCooldown: 2.5
-    maxEnemiesToHit: 1
+    maxEnemiesToHit: 0
   - levelDescription: +1 projectile
     projectileSpeed: 2
     projectileDamage: 10
     projectileNumber: 3
     weaponCooldown: 2.5
-    maxEnemiesToHit: 1
+    maxEnemiesToHit: 0
   - levelDescription: Damage is increased by 10
     projectileSpeed: 2
     projectileDamage: 20
     projectileNumber: 3
     weaponCooldown: 2.5
-    maxEnemiesToHit: 1
+    maxEnemiesToHit: 0
   - levelDescription: +1 projectile
     projectileSpeed: 2
     projectileDamage: 20
     projectileNumber: 4
     weaponCooldown: 2.5
-    maxEnemiesToHit: 1
-  - levelDescription: Projectile can hit 2 enemies
+    maxEnemiesToHit: 0
+  - levelDescription: TBA
     projectileSpeed: 2
     projectileDamage: 20
     projectileNumber: 4
     weaponCooldown: 2.5
-    maxEnemiesToHit: 2
+    maxEnemiesToHit: 0
   - levelDescription: Damage is increased by 10
     projectileSpeed: 2
     projectileDamage: 30
     projectileNumber: 4
     weaponCooldown: 2.5
-    maxEnemiesToHit: 2
+    maxEnemiesToHit: 0

@@ -1,5 +1,4 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Weapon 
@@ -21,24 +20,23 @@ public class Weapon
     private Transform _playerTransform;
     private CustomObjectPool _projectilesPool;
     private ViewportBounds _viewportBounds;
+    private IPlayerDirectionReader _playerDirection;
 
     private float _weaponCooldownEndTime;
     private bool _canAttack => Time.time >= _weaponCooldownEndTime;
 
-    private float _projectileCooldown = 0.1f; //0.1 is too short
-    private float _projectileCooldownTime;
-    //private bool _canSpawnMoreProjectiles => Time.time >= _projectileCooldownTime;
+    private float _projectileCooldown = 0.1f; 
 
-    public Weapon(WeaponData weaponData, Transform playerTransform, ViewportBounds viewportBounds)
+    public Weapon(WeaponData weaponData, Transform playerTransform, ViewportBounds viewportBounds, IPlayerDirectionReader playerDirection)
     {
         _data = weaponData;
-        CurrentLevel = 0;
         _playerTransform = playerTransform;
+        _viewportBounds = viewportBounds;
+        _playerDirection = playerDirection;
+
+        CurrentLevel = 0;
 
         _projectilesPool = new CustomObjectPool(_data.projectile, 5);
-        _viewportBounds = viewportBounds;
-
-        Debug.Log($"Weapon {_data.weaponID} added!");
 
         StartCooldown(_data.weaponLevels[0].weaponCooldown);
     }
@@ -46,12 +44,10 @@ public class Weapon
     public void Attack(MonoBehaviour owner)
     {
         if (!_canAttack) return;
-
-        //CreateProjectile();
-        owner.StartCoroutine(CreateProjectile());
+        owner.StartCoroutine(CreateProjectile()); 
     }
 
-    private IEnumerator CreateProjectile() //spawning the endless amount of projectiles
+    private IEnumerator CreateProjectile() 
     {
         float currentSpeed = _data.weaponLevels[CurrentLevel].projectileSpeed;
         float currentDamage = _data.weaponLevels[CurrentLevel].projectileDamage;
@@ -67,7 +63,7 @@ public class Weapon
         {
             GameObject newPorjectile = _projectilesPool.Get();
             newPorjectile.transform.position = _playerTransform.position;
-            newPorjectile.GetComponent<WeaponProjectile>().Initialize(
+            newPorjectile.GetComponent<WeaponProjectile>().Initialize( // error 
                 _viewportBounds,
                 ChooseProjectileMovement(newPorjectile, _data.projectileBehaviour, currentSpeed),
                 () => _projectilesPool.Release(newPorjectile),
@@ -95,7 +91,9 @@ public class Weapon
         switch (projectileBehaviour)
         {
             case ProjectileBehavioursEnum.ProjectileFollowsEnemyMovement:
-                return new ProjectileFollowsEnemyMovement(projectile.transform, projectileSpeed); 
+                return new ProjectileFollowsEnemyMovement(projectile.transform, projectileSpeed);
+            case ProjectileBehavioursEnum.PlayerFacedDirectionProjectileMovement:
+                return new PlayerFacedDirectionProjectileMovement(_playerDirection.LastDirection, projectileSpeed); 
             default:
                 Debug.LogError("No movement logic for projectile! Returning basic stuff");
                 return new ProjectileFollowsEnemyMovement(projectile.transform, projectileSpeed);
