@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class EnemyHealth //: MonoBehaviour
+public class EnemyHealth
 {
     private float _enemyCurrentHealth;
     private float _enemyMaxHealth;
@@ -14,7 +14,6 @@ public class EnemyHealth //: MonoBehaviour
     {
         _enemyMaxHealth = enemyMaxHealth;
         _enemyCurrentHealth = _enemyMaxHealth;
-        //Debug.Log($"Current enemy health is {_enemyCurrentHealth}");
     }
 
     public float EnemyCurrentHealth

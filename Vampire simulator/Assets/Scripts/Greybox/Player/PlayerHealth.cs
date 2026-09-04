@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class PlayerHealth//: MonoBehaviour //should it really be a monobeh?
+public class PlayerHealth
 {
     private float _playerCurrentHealth;
     private float _playerMaxHealth;
@@ -11,7 +11,7 @@ public class PlayerHealth//: MonoBehaviour //should it really be a monobeh?
     //not sure, but maybe I should make different events on health restored and on damage dealed 
     //public event Action<float, float> OnPlayerHealthChange;
 
-    public float PlayerCurrentHealth //like a protection from fool???
+    public float PlayerCurrentHealth 
     {
         get => _playerCurrentHealth;
         private set
@@ -19,7 +19,6 @@ public class PlayerHealth//: MonoBehaviour //should it really be a monobeh?
             float clamped = Mathf.Clamp(value, 0f, _playerMaxHealth);
             if (Mathf.Approximately(clamped, _playerCurrentHealth)) return; //I remembered there was such a way to compare float values in Unity, but I forgot exact scripting, so I asked Claude about it
             _playerCurrentHealth = clamped;
-            //OnPlayerHealthChange?.Invoke(_playerCurrentHealth, _playerMaxHealth);
             if (_playerCurrentHealth <= 0f) _eventBus.Invoke(new DeathSignal());
             else _eventBus.Invoke(new HealthChangedSignal(_playerCurrentHealth));
         }

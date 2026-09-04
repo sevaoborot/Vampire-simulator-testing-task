@@ -48,7 +48,7 @@ public class LevelUpMenuElement : UIElement
         {
             WeaponData newButtonInfo = _newWeaponSelector.RandomData(_weaponOptions, out int level);
             _weaponButtons[i].description.text = newButtonInfo.weaponID;
-            _weaponButtons[i].title.text = newButtonInfo.weaponLevels[level].levelDescription;
+            _weaponButtons[i].title.text = newButtonInfo.GetLevel(level).LevelDescription;
             _weaponButtons[i].button.onClick.RemoveAllListeners();
             _weaponButtons[i].button.onClick.AddListener(() => _newWeaponSelector.RegisterChosenWeapon(newButtonInfo));
         }

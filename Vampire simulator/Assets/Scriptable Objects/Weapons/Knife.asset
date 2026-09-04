@@ -9,58 +9,58 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abe4e559e2a0366479c3b6bc1932e714, type: 3}
+  m_Script: {fileID: 11500000, guid: 0c7ca7e09ebd2cc4b8e9e49b1d015807, type: 3}
   m_Name: Knife
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Assembly-CSharp::ProjectileWeaponData
   weaponID: knife
   projectile: {fileID: 8646682986074405759, guid: 995b57fa441fe3242874582d6d282e8d, type: 3}
-  projectileBehaviour: 1
+  projectileBehaviour: 2
   weaponLevels:
-  - levelDescription: Fires quickly in the faced direction
+  - levelDescription: Fires quickly in the faced direction.
     projectileSpeed: 3
     projectileDamage: 6.5
     projectileNumber: 1
     weaponCooldown: 1
     maxEnemiesToHit: 1
-  - levelDescription: +1 projectile
+  - levelDescription: Fires 1 more projectile.
     projectileSpeed: 3
     projectileDamage: 6.5
     projectileNumber: 2
     weaponCooldown: 1
     maxEnemiesToHit: 1
-  - levelDescription: +1 projectile, damage is increased by 5
+  - levelDescription: Fires 1 more projectile. Base Damage up by 5.
+    projectileSpeed: 3
+    projectileDamage: 11.5
+    projectileNumber: 2
+    weaponCooldown: 1
+    maxEnemiesToHit: 1
+  - levelDescription: Fires 1 more projectile.
     projectileSpeed: 3
     projectileDamage: 11.5
     projectileNumber: 3
     weaponCooldown: 1
     maxEnemiesToHit: 1
-  - levelDescription: +1 projectile
+  - levelDescription: Passes through 1 more enemy.
+    projectileSpeed: 3
+    projectileDamage: 11.5
+    projectileNumber: 3
+    weaponCooldown: 1
+    maxEnemiesToHit: 2
+  - levelDescription: Fires 1 more projectile.
     projectileSpeed: 3
     projectileDamage: 11.5
     projectileNumber: 4
     weaponCooldown: 1
-    maxEnemiesToHit: 1
-  - levelDescription: Passes through 1 more enemy
-    projectileSpeed: 3
-    projectileDamage: 11.5
-    projectileNumber: 4
-    weaponCooldown: 1
     maxEnemiesToHit: 2
-  - levelDescription: +1 projectile
-    projectileSpeed: 3
-    projectileDamage: 11.5
-    projectileNumber: 5
-    weaponCooldown: 1
-    maxEnemiesToHit: 2
-  - levelDescription: +1 projectile, damage is increased by 5
+  - levelDescription: Fires 1 more projectile. Base Damage up by 5.
     projectileSpeed: 3
     projectileDamage: 16.5
-    projectileNumber: 5
+    projectileNumber: 6
     weaponCooldown: 1
     maxEnemiesToHit: 2
-  - levelDescription: Passes through 1 more enemy
+  - levelDescription: Passes through 1 more enemy.
     projectileSpeed: 3
     projectileDamage: 16.5
-    projectileNumber: 5
+    projectileNumber: 6
     weaponCooldown: 1
     maxEnemiesToHit: 3

@@ -7,6 +7,7 @@ public interface IProjectileMovement
 
 public enum ProjectileBehavioursEnum
 {
+    Null, //should I really keep it or can I remove it?
     ProjectileFollowsEnemyMovement,
     PlayerFacedDirectionProjectileMovement
 }

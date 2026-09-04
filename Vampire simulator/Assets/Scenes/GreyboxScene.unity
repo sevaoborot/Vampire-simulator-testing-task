@@ -984,10 +984,9 @@ MonoBehaviour:
     title: {fileID: 1088901829}
     description: {fileID: 2147311707}
   _weaponOptions:
-  - {fileID: 11400000, guid: f064081948c69404b858a04aacb7f89a, type: 2}
-  - {fileID: 11400000, guid: 5019b046e5eab5c4697d76a9cb158ad3, type: 2}
-  - {fileID: 11400000, guid: 1d4b3e6d599e1fc4999e38a9c9263f5f, type: 2}
-  - {fileID: 11400000, guid: 5f8cb562a923ca348b880c5bdf8daf10, type: 2}
+  - {fileID: 11400000, guid: e8dde95aae2b7434aaa0df32a6a34224, type: 2}
+  - {fileID: 11400000, guid: c5f91ea77b00424479a8d219b2d53806, type: 2}
+  - {fileID: 11400000, guid: b41d4795ed31bf9448921d835eb045a2, type: 2}
 --- !u!1 &514030918
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,11 +8,10 @@ public interface IPlayerWeaponsReader
 
 public class PlayerWeapons : IPlayerWeaponsReader
 {
-    private Transform _ownerTransform;
     private MonoBehaviour _owner;
-    private ViewportBounds _viewportBounds;
     private EventBus _eventBus;
-    private IPlayerDirectionReader _directionReader;
+
+    private WeaponInfo _weaponInfo;
 
     private Dictionary<WeaponData, Weapon> _currentWeapons = new Dictionary<WeaponData, Weapon>();
 
@@ -20,10 +19,11 @@ public class PlayerWeapons : IPlayerWeaponsReader
     {
         _eventBus = eventBus;
 
-        _viewportBounds = viewportBounds;
-        _ownerTransform = ownerTransform;
+        _weaponInfo.ownerTransform = ownerTransform;
+        _weaponInfo.viewportBounds = viewportBounds;
+        _weaponInfo.directionReader = directionReader;
+
         _owner = owner;
-        _directionReader = directionReader;
 
         AddWeapon(testWeapon);
         _eventBus.Subscribe<WeaponChosenSignal>(ReceiveNewWeapon);
@@ -37,7 +37,7 @@ public class PlayerWeapons : IPlayerWeaponsReader
 
     private void ReceiveNewWeapon(WeaponChosenSignal signal) => AddWeapon(signal.WeaponData);
 
-    public void AddWeapon(WeaponData weaponData) //not finished or tested yet
+    public void AddWeapon(WeaponData weaponData) 
     {
         foreach(var weapon in _currentWeapons)
             if (weapon.Value.SameID(weaponData.weaponID))
@@ -45,16 +45,23 @@ public class PlayerWeapons : IPlayerWeaponsReader
                 weapon.Value.UpgrateWeapon();
                 return;
             }
-        _currentWeapons.Add(weaponData, new Weapon(weaponData, _ownerTransform, _viewportBounds, _directionReader));
+        _currentWeapons.Add(weaponData, weaponData.CreateWeapon(_weaponInfo));
     }
 
     public bool TryGetLevel(WeaponData data, out int level)
     {
         if (_currentWeapons.TryGetValue(data, out Weapon weapon)) {
-            level = weapon.CurrentLevel; 
+            level = weapon.CurrentLevel;
             return true;
         }
         level = -1;
         return false;
     }
+}
+
+public struct WeaponInfo //should be renamed
+{
+    public Transform ownerTransform;
+    public ViewportBounds viewportBounds;
+    public IPlayerDirectionReader directionReader;
 }

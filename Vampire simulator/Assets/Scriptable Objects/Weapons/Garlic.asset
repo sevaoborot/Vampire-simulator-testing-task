@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f5fb7f249b4aca4b8534f657ffafac5, type: 3}
+  m_Name: Garlic
+  m_EditorClassIdentifier: Assembly-CSharp::DamageAreaWeaponData
+  weaponID: garlic
+  projectile: {fileID: 875343699071536154, guid: f292555a601fcf646b20efbeb93a6e85, type: 3}
+  weaponLevels:
+  - levelDescription: Damages nearby enemies. Reduces resistance to knockback and
+      freeze.
+    areaSize: 1
+    areaDamage: 5
+    areasNumber: 1
+    areaCooldown: 1.3
+    areaExistanceTime: 0
+  - levelDescription: Base Area up by 40%. Base Damage up by 2.
+    areaSize: 1.4
+    areaDamage: 7
+    areasNumber: 1
+    areaCooldown: 1.3
+    areaExistanceTime: 0
+  - levelDescription: Cooldown reduced by 0.1 seconds. Base Damage up by 1.
+    areaSize: 1.4
+    areaDamage: 8
+    areasNumber: 1
+    areaCooldown: 1.2
+    areaExistanceTime: 0
+  - levelDescription: Base Area up by 20%. Base Damage up by 1.
+    areaSize: 1.6
+    areaDamage: 9
+    areasNumber: 1
+    areaCooldown: 1.2
+    areaExistanceTime: 0
+  - levelDescription: Cooldown reduced by 0.1 seconds. Base Damage up by 2.
+    areaSize: 1.6
+    areaDamage: 11
+    areasNumber: 1
+    areaCooldown: 1.1
+    areaExistanceTime: 0
+  - levelDescription: Base Area up by 20%. Base Damage up by 1.
+    areaSize: 1.8
+    areaDamage: 12
+    areasNumber: 1
+    areaCooldown: 1.1
+    areaExistanceTime: 0
+  - levelDescription: Cooldown reduced by 0.1 seconds. Base Damage up by 1.
+    areaSize: 1.8
+    areaDamage: 13
+    areasNumber: 1
+    areaCooldown: 1
+    areaExistanceTime: 0
+  - levelDescription: Base Area up by 20%. Base Damage up by 2.
+    areaSize: 2
+    areaDamage: 15
+    areasNumber: 1
+    areaCooldown: 1
+    areaExistanceTime: 0

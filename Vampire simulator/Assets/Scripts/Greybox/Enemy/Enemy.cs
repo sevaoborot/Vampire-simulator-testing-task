@@ -40,8 +40,21 @@ public class Enemy : MonoBehaviour
                 _enemyHealth.ReceiveDamage(weaponProjectile.Damage);
                 weaponProjectile.RegisterEnemyHit();
             }
+            if (collision.TryGetComponent<WeaponDamagingArea>(out WeaponDamagingArea weaponDamagingArea))
+                weaponDamagingArea.EnterArea(_enemyHealth);
         }
     }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (Time.timeScale != 0f)
+        {
+            if (collision.TryGetComponent<WeaponDamagingArea>(out WeaponDamagingArea weaponDamagingArea))
+                weaponDamagingArea.LeaveArea(_enemyHealth);
+        }
+    }
+
+    //should I add onTriggerEnd2D ???
 
     private void Death()
     {

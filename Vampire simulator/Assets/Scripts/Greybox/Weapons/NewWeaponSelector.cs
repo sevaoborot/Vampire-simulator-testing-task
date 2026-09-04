@@ -22,7 +22,7 @@ public class NewWeaponSelector
             return data;
         }
         int nextLevel = currentLevel + 1;
-        if (nextLevel < data.weaponLevels.Length)
+        if (nextLevel < WeaponData.levelsNumber)
         {
             level = nextLevel;
             return data;
