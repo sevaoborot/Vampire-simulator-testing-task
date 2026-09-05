@@ -2,12 +2,12 @@ using UnityEngine;
 
 public interface IProjectileMovement
 {
-    public Vector2 Move(Transform projectileTransform);
+    public Vector2 Move(Transform projectileTransform); //should it return vector?
 }
 
 public enum ProjectileBehavioursEnum
 {
-    Null, //should I really keep it or can I remove it?
+    //Null, //should I really keep it or can I remove it?
     ProjectileFollowsEnemyMovement,
     PlayerFacedDirectionProjectileMovement
 }

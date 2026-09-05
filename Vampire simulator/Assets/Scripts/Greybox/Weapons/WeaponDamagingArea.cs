@@ -6,18 +6,25 @@ public class WeaponDamagingArea : MonoBehaviour
 {
     public float Damage { get; private set; }
 
+    private IDamagingAreaMovement _areaMovement;
     private float _areaExistanceTime;
     private float _areaDamageCooldown;
 
     private Dictionary<EnemyHealth, Coroutine> _enemiesInArea = new Dictionary<EnemyHealth, Coroutine>();
 
-    public void Initialize(float areaDamage, float areaExistanceTime, float areaDamageCooldown)
+    public void Initialize(IDamagingAreaMovement areaMovement, float areaDamage, float areaExistanceTime, float areaDamageCooldown)
     {
         Damage = areaDamage;
+        _areaMovement = areaMovement;
         _areaDamageCooldown = areaDamageCooldown;
         _areaExistanceTime = areaExistanceTime;
 
         if (_areaExistanceTime > 0) StartCoroutine(AreaExisting()); 
+    }
+
+    private void Update()
+    {
+        if (_areaMovement != null && Time.timeScale != 0f) transform.position = _areaMovement.Move();
     }
 
     public void EnterArea(EnemyHealth enemyHealth)

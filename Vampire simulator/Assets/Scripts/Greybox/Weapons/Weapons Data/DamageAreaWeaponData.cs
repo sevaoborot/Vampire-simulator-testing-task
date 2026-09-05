@@ -3,6 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New weapon", menuName = "Vampire Sim/New weapon/New damaging area weapon")]
 public class DamageAreaWeaponData : WeaponData
 {
+    public DamagingAreaMovementsEnum areaMovementType;
     public DamageAreaWeaponLevels[] weaponLevels = new DamageAreaWeaponLevels[levelsNumber];
 
     public override ILevel GetLevel(int level) => weaponLevels[level];

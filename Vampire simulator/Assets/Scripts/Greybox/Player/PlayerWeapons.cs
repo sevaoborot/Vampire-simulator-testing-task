@@ -45,7 +45,7 @@ public class PlayerWeapons : IPlayerWeaponsReader
                 weapon.Value.UpgrateWeapon();
                 return;
             }
-        _currentWeapons.Add(weaponData, weaponData.CreateWeapon(_weaponInfo));
+        _currentWeapons.Add(weaponData, weaponData.CreateWeapon(_weaponInfo)); 
     }
 
     public bool TryGetLevel(WeaponData data, out int level)
