@@ -2,24 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponDamagingArea : MonoBehaviour
+public abstract class WeaponDamagingArea : MonoBehaviour
 {
-    public float Damage { get; private set; }
+    public float Damage { get; protected set; }
+    protected float _areaDamageCooldown; 
+    protected IDamagingAreaMovement _areaMovement;
 
-    private IDamagingAreaMovement _areaMovement;
-    private float _areaExistanceTime;
-    private float _areaDamageCooldown;
+    protected Dictionary<EnemyHealth, Coroutine> _enemiesInArea = new Dictionary<EnemyHealth, Coroutine>();
 
-    private Dictionary<EnemyHealth, Coroutine> _enemiesInArea = new Dictionary<EnemyHealth, Coroutine>();
-
-    public void Initialize(IDamagingAreaMovement areaMovement, float areaDamage, float areaExistanceTime, float areaDamageCooldown)
+    protected void ProtectedInitialize(IDamagingAreaMovement areaMovement, float areaDamage, float areaDamageCooldown)
     {
         Damage = areaDamage;
         _areaMovement = areaMovement;
         _areaDamageCooldown = areaDamageCooldown;
-        _areaExistanceTime = areaExistanceTime;
-
-        if (_areaExistanceTime > 0) StartCoroutine(AreaExisting()); 
     }
 
     private void Update()
@@ -58,12 +53,5 @@ public class WeaponDamagingArea : MonoBehaviour
             enemyHealth.ReceiveDamage(Damage);
             yield return new WaitForSeconds(_areaDamageCooldown);
         }
-    }
-
-    private IEnumerator AreaExisting() //should be renamed
-    {
-        yield return new WaitForSeconds(_areaExistanceTime);
-        foreach (var enemy in _enemiesInArea) StopCoroutine(enemy.Value);
-        _enemiesInArea.Clear();
     }
 }

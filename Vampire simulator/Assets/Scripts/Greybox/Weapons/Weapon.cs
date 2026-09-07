@@ -3,7 +3,7 @@ using UnityEngine;
 
 public abstract class Weapon
 {
-    protected int _currentLevel;
+    protected int _currentLevel = 0;
     protected int _maxLevel;
     protected string _weaponID;
 
@@ -50,7 +50,7 @@ public class ProjectileWeapon : Weapon
         _playerDirection = playerDirection;
 
         _weaponID = _data.weaponID; //not cool, should be remade with weaponData class
-        CurrentLevel = 0;
+        //CurrentLevel = 0;
 
         _projectilesPool = new CustomObjectPool(_data.projectile, 5);
 
@@ -81,7 +81,7 @@ public class ProjectileWeapon : Weapon
         {
             GameObject newPorjectile = _projectilesPool.Get();
             newPorjectile.transform.position = _playerTransform.position;
-            newPorjectile.GetComponent<WeaponProjectile>().Initialize( // error 
+            newPorjectile.GetComponent<WeaponProjectile>().Initialize( 
                 _viewportBounds,
                 ChooseProjectileMovement(newPorjectile, _data.projectileBehaviour, currentSpeed),
                 () => _projectilesPool.Release(newPorjectile),
@@ -108,20 +108,16 @@ public class ProjectileWeapon : Weapon
                 return new PlayerFacedDirectionProjectileMovement(_playerDirection.LastDirection, projectileSpeed);
             default:
                 Debug.LogWarning("No movement logic for projectile!");
-                //return new ProjectileFollowsEnemyMovement(projectile.transform, projectileSpeed);
                 return null;
         }
     }
 }
 
-public class DamagingAreaWeapon : Weapon 
+public abstract class DamagingAreaWeapon : Weapon //should I make in
 {
-    private DamageAreaWeaponData _data;
-
-    private Transform _playerTransform;
+    protected DamageAreaWeaponData _data;
+    protected Transform _playerTransform;
     private ViewportBounds _viewportBounds;
-
-    private GameObject _currentArea; 
 
     public DamagingAreaWeapon(DamageAreaWeaponData data, Transform playerTransform, ViewportBounds viewportBounds)
     {
@@ -131,55 +127,131 @@ public class DamagingAreaWeapon : Weapon
         _viewportBounds = viewportBounds;
 
         _weaponID = _data.weaponID;
-
-        _currentArea = CreateArea();
     }
 
-    public override void UpgrateWeapon()
-    {
-        base.UpgrateWeapon();
-        Debug.Log(_data.weaponLevels[CurrentLevel].areaSize);
-        _currentArea.transform.localScale *= _data.weaponLevels[CurrentLevel].areaSize; //for some reason, _data.weaponLevels[CurrentLevel].areaSize is 0
-    }
-
-    public override void Attack(MonoBehaviour owner)
-    {
-        //_currentArea.transform.position = _playerTransform.position;
-    }
-
-    private GameObject CreateArea()
-    {
-        float currentAreaSize = _data.weaponLevels[CurrentLevel].areaSize;
-        float currentAreaDamage = _data.weaponLevels[CurrentLevel].areaDamage;
-        float currentAreasNumber = _data.weaponLevels[CurrentLevel].areasNumber;
-        float currentAreaDamageCooldown = _data.weaponLevels[CurrentLevel].areaCooldown;
-        float currentAreaExistanceTime = _data.weaponLevels[CurrentLevel].areaExistanceTime;
-
-        GameObject newAreaGameObj = GameObject.Instantiate(_data.projectile, 
-            _playerTransform.position, 
-            _data.projectile.transform.rotation);
-        newAreaGameObj.SetActive(false);
-        newAreaGameObj.transform.localScale *= currentAreaSize;
-
-        newAreaGameObj.GetComponent<WeaponDamagingArea>().Initialize(
-            ChooseMovement(_data.areaMovementType),
-            currentAreaDamage, 
-            currentAreaExistanceTime, 
-            currentAreaDamageCooldown);
-
-        newAreaGameObj.SetActive(true);
-        return newAreaGameObj;
-    }
-
-    private IDamagingAreaMovement ChooseMovement(DamagingAreaMovementsEnum areaMovement)
+    protected IDamagingAreaMovement ChooseMovement(DamagingAreaMovementsEnum areaMovement)
     {
         switch (areaMovement)
         {
+            case DamagingAreaMovementsEnum.Null:
+                return null;
             case DamagingAreaMovementsEnum.DamagingAreaFollowsThePlayer:
                 return new DamagingAreaFollowsThePlayerBehaviour(_playerTransform);
             default:
                 Debug.LogWarning("No movement type selected for this type of area!");
                 return null;
         }
+    }
+
+    protected IDamagingAreaSpawning ChooseSpawning(DamagingAreaSpawningEnum spawning) { 
+        switch (spawning)
+        {
+            case DamagingAreaSpawningEnum.SpawningAtPlayerPosition:
+                return new SpawningAtPlayerPosition(_playerTransform);
+            case DamagingAreaSpawningEnum.RandomPositionSpawning:
+                return new RandomPositionSpawning(_viewportBounds);
+            default:
+                Debug.LogError("No spawning behaviour selected for this typ of area!");
+                return new SpawningAtPlayerPosition(_playerTransform);
+        }
+    }
+}
+
+public class AlwaysEnabledDamagingAreaWeapon : DamagingAreaWeapon
+{
+    private WeaponAlwaysEnabledDamagingArea _currentArea;
+
+    public AlwaysEnabledDamagingAreaWeapon(DamageAreaWeaponData data, Transform playerTransform, ViewportBounds viewportBounds) : base(data, playerTransform, viewportBounds)
+    {
+        _currentArea = CreateArea();
+    }
+
+    public override void UpgrateWeapon()
+    {
+        base.UpgrateWeapon();
+        _currentArea.Upgrate(
+            _data.weaponLevels[CurrentLevel].areaDamage,
+            _data.weaponLevels[CurrentLevel].areaDamageCooldown,
+            _data.weaponLevels[CurrentLevel].areaSize);
+    }
+
+    public override void Attack(MonoBehaviour owner)
+    {
+        
+    }
+
+    private WeaponAlwaysEnabledDamagingArea CreateArea()
+    {
+        float currentAreaSize = _data.weaponLevels[CurrentLevel].areaSize;
+        float currentAreaDamage = _data.weaponLevels[CurrentLevel].areaDamage;
+        float currentAreaDamageCooldown = _data.weaponLevels[CurrentLevel].areaDamageCooldown;
+        float currentAreaExistanceTime = _data.weaponLevels[CurrentLevel].areaExistanceTime;
+
+        GameObject newAreaGameObj = GameObject.Instantiate(_data.projectile,
+            _playerTransform.position,
+            _data.projectile.transform.rotation);
+        newAreaGameObj.SetActive(false);
+        newAreaGameObj.transform.localScale *= currentAreaSize;
+
+        WeaponAlwaysEnabledDamagingArea newArea = newAreaGameObj.GetComponent<WeaponAlwaysEnabledDamagingArea>();
+
+        newArea.Initialize(
+            ChooseMovement(_data.areaMovementType),
+            currentAreaDamage,
+            currentAreaDamageCooldown);
+
+        newAreaGameObj.SetActive(true);
+        return newArea;
+    }
+}
+
+public class RegularDamagingAreaWeapon : DamagingAreaWeapon
+{
+    private CustomObjectPool _areasPool;
+
+    private float _weaponCooldownEndTime;
+    private bool _canAttack => Time.time >= _weaponCooldownEndTime;
+
+    public RegularDamagingAreaWeapon(DamageAreaWeaponData data, Transform playerTransform, ViewportBounds viewportBounds) : base(data, playerTransform, viewportBounds)
+    {
+        _areasPool = new CustomObjectPool(_data.projectile, 4);
+
+        StartCooldown(_data.weaponLevels[CurrentLevel].areaSpawningCooldown);
+    }
+
+    public override void UpgrateWeapon()
+    {
+        base.UpgrateWeapon();
+    }
+
+    public override void Attack(MonoBehaviour owner)
+    {
+        if (!_canAttack) return;
+        CreateArea();
+    }
+
+    private void StartCooldown(float weaponCooldown) => _weaponCooldownEndTime = Time.time + weaponCooldown;
+
+    private void CreateArea()
+    {
+        float currentAreaSize = _data.weaponLevels[CurrentLevel].areaSize;
+        float currentAreaDamage = _data.weaponLevels[CurrentLevel].areaDamage;
+        float currentAreasNumber = _data.weaponLevels[CurrentLevel].areasNumber;
+        float currentAreaDamageCooldown = _data.weaponLevels[CurrentLevel].areaDamageCooldown;
+        float currentAreaExistanceTime = _data.weaponLevels[CurrentLevel].areaExistanceTime;
+
+        for (int i = 0; i < currentAreasNumber; i++)
+        {
+            GameObject newArea = _areasPool.Get();
+            newArea.transform.position = ChooseSpawning(_data.areaSpawning).Spawn();
+            newArea.GetComponent<WeaponRegularDamagingArea>().Initialize(
+                ChooseMovement(_data.areaMovementType),
+                currentAreaDamage,
+                currentAreaExistanceTime,
+                currentAreaDamageCooldown,
+                () => _areasPool.Release(newArea));
+        }
+
+        StartCooldown(currentAreaExistanceTime + _data.weaponLevels[CurrentLevel].areaSpawningCooldown);
     }
 }

@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f5fb7f249b4aca4b8534f657ffafac5, type: 3}
+  m_Name: Holy water
+  m_EditorClassIdentifier: 
+  weaponID: holy_water
+  projectile: {fileID: 875343699071536154, guid: f292555a601fcf646b20efbeb93a6e85, type: 3}
+  areaMovementType: 0
+  areaSpawning: 0
+  weaponLevels:
+  - levelDescription: Generates damaging zones.
+    areaSize: 1
+    areaDamage: 10
+    areasNumber: 1
+    areaDamageCooldown: 0.5
+    areaSpawningCooldown: 4.5
+    areaExistanceTime: 2
+  - levelDescription: Fires 1 more projectile. Base Area up by 20%
+    areaSize: 1.2
+    areaDamage: 10
+    areasNumber: 2
+    areaDamageCooldown: 0.5
+    areaSpawningCooldown: 4.5
+    areaExistanceTime: 2
+  - levelDescription: Effect lasts 0.5 seconds longer. Base Damage up by 10.
+    areaSize: 1.2
+    areaDamage: 20
+    areasNumber: 2
+    areaDamageCooldown: 0.5
+    areaSpawningCooldown: 4.5
+    areaExistanceTime: 2.5
+  - levelDescription: Fires 1 more projectile. Base Area up by 20%.
+    areaSize: 1.4
+    areaDamage: 20
+    areasNumber: 3
+    areaDamageCooldown: 0.5
+    areaSpawningCooldown: 4.5
+    areaExistanceTime: 2.5
+  - levelDescription: Effect lasts 0.3 seconds longer. Base Damage up by 10.
+    areaSize: 1.4
+    areaDamage: 30
+    areasNumber: 3
+    areaDamageCooldown: 0.5
+    areaSpawningCooldown: 4.5
+    areaExistanceTime: 2.75
+  - levelDescription: Fires 1 more projectile. Base Area up by 20%.
+    areaSize: 1.6
+    areaDamage: 30
+    areasNumber: 4
+    areaDamageCooldown: 0.5
+    areaSpawningCooldown: 4.5
+    areaExistanceTime: 2.75
+  - levelDescription: Effect lasts 0.3 seconds longer. Base Damage up by 5.
+    areaSize: 1.6
+    areaDamage: 35
+    areasNumber: 4
+    areaDamageCooldown: 0.5
+    areaSpawningCooldown: 4.5
+    areaExistanceTime: 3
+  - levelDescription: Base Area up by 20%. Base Damage up by 5.
+    areaSize: 1.8
+    areaDamage: 40
+    areasNumber: 4
+    areaDamageCooldown: 0.5
+    areaSpawningCooldown: 4.5
+    areaExistanceTime: 3

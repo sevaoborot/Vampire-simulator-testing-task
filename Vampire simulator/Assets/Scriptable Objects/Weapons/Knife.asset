@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ProjectileWeaponData
   weaponID: knife
   projectile: {fileID: 8646682986074405759, guid: 995b57fa441fe3242874582d6d282e8d, type: 3}
-  projectileBehaviour: 2
+  projectileBehaviour: 1
   weaponLevels:
   - levelDescription: Fires quickly in the faced direction.
     projectileSpeed: 3
