@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Garlic
   m_EditorClassIdentifier: Assembly-CSharp::DamageAreaWeaponData
   weaponID: garlic
-  projectile: {fileID: 875343699071536154, guid: f292555a601fcf646b20efbeb93a6e85, type: 3}
+  projectile: {fileID: 875343699071536154, guid: e635c7caeea8e2d449788571e931926a, type: 3}
   areaMovementType: 1
   areaSpawning: 1
   weaponLevels:
