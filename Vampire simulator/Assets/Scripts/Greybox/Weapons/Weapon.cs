@@ -73,8 +73,6 @@ public class ProjectileWeapon : Weapon
         float currentCooldown = _data.weaponLevels[CurrentLevel].weaponCooldown;
         int currentMaxEnemiesToHit = _data.weaponLevels[CurrentLevel].maxEnemiesToHit;
 
-        Debug.Log($"current number of projectiles: {currentProjectileNumber}");
-
         StartCooldown(currentCooldown);
 
         for (int i = 0; i < currentProjectileNumber; i++)
@@ -243,6 +241,7 @@ public class RegularDamagingAreaWeapon : DamagingAreaWeapon
         for (int i = 0; i < currentAreasNumber; i++)
         {
             GameObject newArea = _areasPool.Get();
+            newArea.transform.localScale = new Vector2(currentAreaSize, currentAreaSize);
             newArea.transform.position = ChooseSpawning(_data.areaSpawning).Spawn();
             newArea.GetComponent<WeaponRegularDamagingArea>().Initialize(
                 ChooseMovement(_data.areaMovementType),
