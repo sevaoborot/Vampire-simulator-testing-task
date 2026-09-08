@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class WeaponRegularDamagingArea : WeaponDamagingArea
+public class SpawnedRegularDamagingArea : SpawnedDamagingArea
 {
     private float _areaExistanceTime;
     private Action _onAreaRelease;

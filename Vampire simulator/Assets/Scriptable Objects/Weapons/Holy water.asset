@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f5fb7f249b4aca4b8534f657ffafac5, type: 3}
+  m_Script: {fileID: 11500000, guid: 8cef8c9e92c7f074b96590f6b89f5223, type: 3}
   m_Name: Holy water
   m_EditorClassIdentifier: 
   weaponID: holy_water
@@ -24,7 +24,7 @@ MonoBehaviour:
     areaDamageCooldown: 0.5
     areaSpawningCooldown: 4.5
     areaExistanceTime: 2
-  - levelDescription: Fires 1 more projectile. Base Area up by 20%
+  - levelDescription: Fires 1 more projectile. Base Area up by 20%.
     areaSize: 1.2
     areaDamage: 10
     areasNumber: 2

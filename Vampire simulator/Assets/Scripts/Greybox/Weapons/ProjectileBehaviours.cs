@@ -62,12 +62,10 @@ public class PlayerFacedDirectionProjectileMovement : IProjectileMovement
 
     public PlayerFacedDirectionProjectileMovement(Vector2 playerDirection, float speed)
     {
-        Debug.Log(playerDirection);
         _direction = playerDirection;
         _speed = speed;;
 
         _movementVector = _direction.normalized * _speed * Time.deltaTime;
-
     }
 
     public Vector2 Move(Transform projectileTransform)

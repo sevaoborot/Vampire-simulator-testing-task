@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class WeaponAlwaysEnabledDamagingArea : WeaponDamagingArea
+public class SpawnedAlwaysEnabledDamagingArea : SpawnedDamagingArea
 {
     public void Initialize(IDamagingAreaMovement areaMovement, float areaDamage, float areaDamageCooldown) => 
         ProtectedInitialize(areaMovement, areaDamage, areaDamageCooldown);

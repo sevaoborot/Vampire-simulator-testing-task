@@ -15,9 +15,9 @@ MonoBehaviour:
   maxHealth: 100
   speed: 1
   weapons:
-  - {fileID: 11400000, guid: e8dde95aae2b7434aaa0df32a6a34224, type: 2}
-  - {fileID: 11400000, guid: 5ada9aa71ba5d624380ec1ef8e3e1bd3, type: 2}
+  - {fileID: 11400000, guid: c8ffc479c059ea94bb6c7ce7e92f3e68, type: 2}
   - {fileID: 11400000, guid: b41d4795ed31bf9448921d835eb045a2, type: 2}
   - {fileID: 11400000, guid: c5f91ea77b00424479a8d219b2d53806, type: 2}
+  - {fileID: 11400000, guid: 5ada9aa71ba5d624380ec1ef8e3e1bd3, type: 2}
   expAmountForUnlockingLevel: 5
   levelIncrement: 1.5

@@ -40,7 +40,7 @@ public class Enemy : MonoBehaviour
                 _enemyHealth.ReceiveDamage(weaponProjectile.Damage);
                 weaponProjectile.RegisterEnemyHit();
             }
-            if (collision.TryGetComponent<WeaponDamagingArea>(out WeaponDamagingArea weaponDamagingArea))
+            if (collision.TryGetComponent<SpawnedDamagingArea>(out SpawnedDamagingArea weaponDamagingArea))
                 weaponDamagingArea.EnterArea(_enemyHealth);
         }
     }
@@ -49,7 +49,7 @@ public class Enemy : MonoBehaviour
     {
         if (Time.timeScale != 0f)
         {
-            if (collision.TryGetComponent<WeaponDamagingArea>(out WeaponDamagingArea weaponDamagingArea))
+            if (collision.TryGetComponent<SpawnedDamagingArea>(out SpawnedDamagingArea weaponDamagingArea))
                 weaponDamagingArea.LeaveArea(_enemyHealth);
         }
     }

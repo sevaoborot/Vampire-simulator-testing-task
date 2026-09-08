@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class WeaponDamagingArea : MonoBehaviour
+public abstract class SpawnedDamagingArea : MonoBehaviour
 {
     public float Damage { get; protected set; }
     protected float _areaDamageCooldown; 

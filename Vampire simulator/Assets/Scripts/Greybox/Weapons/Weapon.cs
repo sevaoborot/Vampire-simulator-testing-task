@@ -113,18 +113,13 @@ public class ProjectileWeapon : Weapon
 
 public abstract class DamagingAreaWeapon : Weapon //should I make in
 {
-    protected DamageAreaWeaponData _data;
     protected Transform _playerTransform;
     private ViewportBounds _viewportBounds;
 
-    public DamagingAreaWeapon(DamageAreaWeaponData data, Transform playerTransform, ViewportBounds viewportBounds)
+    public DamagingAreaWeapon(Transform playerTransform, ViewportBounds viewportBounds)
     {
-        _data = data;
-
         _playerTransform = playerTransform;
         _viewportBounds = viewportBounds;
-
-        _weaponID = _data.weaponID;
     }
 
     protected IDamagingAreaMovement ChooseMovement(DamagingAreaMovementsEnum areaMovement)
@@ -157,10 +152,14 @@ public abstract class DamagingAreaWeapon : Weapon //should I make in
 
 public class AlwaysEnabledDamagingAreaWeapon : DamagingAreaWeapon
 {
-    private WeaponAlwaysEnabledDamagingArea _currentArea;
+    private AlwaysEnabledDamagingAreaWeaponData _data;
+    private SpawnedAlwaysEnabledDamagingArea _currentArea;
 
-    public AlwaysEnabledDamagingAreaWeapon(DamageAreaWeaponData data, Transform playerTransform, ViewportBounds viewportBounds) : base(data, playerTransform, viewportBounds)
+    public AlwaysEnabledDamagingAreaWeapon(AlwaysEnabledDamagingAreaWeaponData data, Transform playerTransform, ViewportBounds viewportBounds) : base(playerTransform, viewportBounds)
     {
+        _data = data;
+        _weaponID = _data.weaponID;
+
         _currentArea = CreateArea();
     }
 
@@ -178,12 +177,11 @@ public class AlwaysEnabledDamagingAreaWeapon : DamagingAreaWeapon
         
     }
 
-    private WeaponAlwaysEnabledDamagingArea CreateArea()
+    private SpawnedAlwaysEnabledDamagingArea CreateArea()
     {
         float currentAreaSize = _data.weaponLevels[CurrentLevel].areaSize;
         float currentAreaDamage = _data.weaponLevels[CurrentLevel].areaDamage;
         float currentAreaDamageCooldown = _data.weaponLevels[CurrentLevel].areaDamageCooldown;
-        float currentAreaExistanceTime = _data.weaponLevels[CurrentLevel].areaExistanceTime;
 
         GameObject newAreaGameObj = GameObject.Instantiate(_data.projectile,
             _playerTransform.position,
@@ -191,7 +189,7 @@ public class AlwaysEnabledDamagingAreaWeapon : DamagingAreaWeapon
         newAreaGameObj.SetActive(false);
         newAreaGameObj.transform.localScale *= currentAreaSize;
 
-        WeaponAlwaysEnabledDamagingArea newArea = newAreaGameObj.GetComponent<WeaponAlwaysEnabledDamagingArea>();
+        SpawnedAlwaysEnabledDamagingArea newArea = newAreaGameObj.GetComponent<SpawnedAlwaysEnabledDamagingArea>();
 
         newArea.Initialize(
             ChooseMovement(_data.areaMovementType),
@@ -205,13 +203,17 @@ public class AlwaysEnabledDamagingAreaWeapon : DamagingAreaWeapon
 
 public class RegularDamagingAreaWeapon : DamagingAreaWeapon
 {
+    private RegularDamagingAreaWeaponData _data;
     private CustomObjectPool _areasPool;
 
     private float _weaponCooldownEndTime;
     private bool _canAttack => Time.time >= _weaponCooldownEndTime;
 
-    public RegularDamagingAreaWeapon(DamageAreaWeaponData data, Transform playerTransform, ViewportBounds viewportBounds) : base(data, playerTransform, viewportBounds)
+    public RegularDamagingAreaWeapon(RegularDamagingAreaWeaponData data, Transform playerTransform, ViewportBounds viewportBounds) : base(playerTransform, viewportBounds)
     {
+        _data = data;
+        _weaponID = _data.weaponID;
+
         _areasPool = new CustomObjectPool(_data.projectile, 4);
 
         StartCooldown(_data.weaponLevels[CurrentLevel].areaSpawningCooldown);
@@ -243,7 +245,7 @@ public class RegularDamagingAreaWeapon : DamagingAreaWeapon
             GameObject newArea = _areasPool.Get();
             newArea.transform.localScale = new Vector2(currentAreaSize, currentAreaSize);
             newArea.transform.position = ChooseSpawning(_data.areaSpawning).Spawn();
-            newArea.GetComponent<WeaponRegularDamagingArea>().Initialize(
+            newArea.GetComponent<SpawnedRegularDamagingArea>().Initialize(
                 ChooseMovement(_data.areaMovementType),
                 currentAreaDamage,
                 currentAreaExistanceTime,
