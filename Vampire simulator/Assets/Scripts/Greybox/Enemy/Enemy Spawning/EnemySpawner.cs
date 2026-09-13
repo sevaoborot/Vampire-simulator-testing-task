@@ -9,7 +9,8 @@ public class EnemySpawner : MonoBehaviour
     private EnemySpawnArea _spawnArea;
 
     [Header("Enemies settings")]
-    [SerializeField] private GameObject _enemyPrefab;
+    [SerializeField] private EnemyData _enemyData;
+    
     [SerializeField] private float _spawningCooldown;
     [SerializeField] private Transform _player;
 
@@ -22,7 +23,7 @@ public class EnemySpawner : MonoBehaviour
     public void Initialize(ViewportBounds viewportBounds)
     {
         _spawnArea = new EnemySpawnArea(viewportBounds, _spawnOffset);
-        _enemyPool = new CustomObjectPool(_enemyPrefab, 10);
+        _enemyPool = new CustomObjectPool(_enemyData.Prefab, 10);
         _expPointSpawner = GetComponent<ExpPointSpawner>();
         _expPointSpawner.Initialize();
     }
@@ -46,7 +47,7 @@ public class EnemySpawner : MonoBehaviour
 
         Enemy enemy = newEnemy.GetComponent<Enemy>();
         EnemyRegistry.Register(enemy);
-        enemy.Initialize(_player, () =>
+        enemy.Initialize(_player, _enemyData.Damage, _enemyData.MaxHealth, _enemyData.MaxSpeed, () =>
         {
             EnemyRegistry.Unregister(enemy);
             _expPointSpawner.SpawnExpPoint(newEnemy.transform.position);

@@ -10,8 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f02bd2b23ac564f4e966c37901b9f63e, type: 3}
-  m_Name: Test enemy
+  m_Name: Enemy type 1
   m_EditorClassIdentifier: 
+  Prefab: {fileID: 534604987353889277, guid: 3d50b6c560469f74f8682ed57d3b2f39, type: 3}
   Damage: 10
   MaxHealth: 10
   MaxSpeed: 10
